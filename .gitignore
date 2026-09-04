@@ -1,0 +1,31 @@
+# Environment / secrets
+.env
+.env.*
+
+# Runtime / generated
+# storage/
+backup/
+node_modules/
+# vendor/
+
+# Host/control files
+.ftpquota
+
+# Logs & dumps
+*.log
+*.sql
+*.zip
+*error_log*
+cron/error_log
+actions/error_log
+config/database.php
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+testsprite_tests
+.claude
+PRODUCT_SPECIFICATION.md
+PRODUCT_SPECIFICATION_CURRENT.md

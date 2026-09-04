@@ -1,0 +1,282 @@
+document.addEventListener("DOMContentLoaded", () => {
+  /* =========================
+     SIDEBAR (HANYA JIKA ADA)
+     ========================= */
+  const btn = document.getElementById("menuToggle");
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("sidebarOverlay");
+
+  if (btn && sidebar && overlay) {
+    const STORAGE_KEY = "ems_sidebar_open";
+
+    const isDesktop = () => {
+      try {
+        return window.matchMedia && window.matchMedia("(min-width: 768px)").matches;
+      } catch (e) {
+        return false;
+      }
+    };
+
+    const isMobile = () => !isDesktop();
+
+    const scrollMenuToActive = (behavior = "smooth") => {
+      const menu = sidebar.querySelector(".sidebar-menu");
+      const active = sidebar.querySelector(".sidebar-menu a.active");
+      if (!menu || !active) return;
+
+      const targetTop =
+        active.offsetTop - menu.clientHeight / 2 + active.clientHeight / 2;
+
+      try {
+        menu.scrollTo({
+          top: Math.max(0, targetTop),
+          behavior,
+        });
+      } catch (e) {
+        menu.scrollTop = Math.max(0, targetTop);
+      }
+    };
+
+    const setSidebarOpen = (open, opts = {}) => {
+      const { persist = true, scroll = true } = opts;
+
+      sidebar.classList.toggle("open", open);
+      document.body.classList.toggle("sidebar-open", open);
+      overlay.classList.toggle("active", open && isMobile());
+
+      if (persist) {
+        try {
+          sessionStorage.setItem(STORAGE_KEY, open ? "1" : "0");
+        } catch (e) {}
+      }
+
+      if (open && scroll) {
+        scrollMenuToActive();
+      }
+    };
+
+    // Default: closed (termasuk di desktop). Jika sebelumnya user membuka sidebar pada tab ini,
+    // restore state dari sessionStorage.
+    let shouldOpen = false;
+    try {
+      shouldOpen = sessionStorage.getItem(STORAGE_KEY) === "1";
+    } catch (e) {}
+
+    setSidebarOpen(shouldOpen, { persist: false, scroll: false });
+    if (shouldOpen) scrollMenuToActive("auto");
+
+    // Toggle sidebar
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation(); // penting: cegah klik dokumen menutup sidebar langsung
+      setSidebarOpen(!sidebar.classList.contains("open"));
+    });
+
+    // Klik overlay → tutup
+    overlay.addEventListener("click", () => {
+      setSidebarOpen(false);
+    });
+
+    // Klik DI LUAR sidebar → tutup
+    document.addEventListener("click", (e) => {
+      if (
+        sidebar.classList.contains("open") &&
+        !sidebar.contains(e.target) &&
+        !btn.contains(e.target)
+      ) {
+        setSidebarOpen(false);
+      }
+    });
+
+    // Setelah klik menu navigasi: sidebar langsung menutup (semua ukuran layar),
+    // dan halaman berikutnya akan load dalam kondisi hide.
+    sidebar.addEventListener("click", (e) => {
+      const link = e.target.closest("a");
+      if (!link) return;
+
+      // jangan ganggu shortcut/open new tab
+      if (link.target === "_blank" || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+      const href = link.getAttribute("href") || "";
+      if (!href || href.startsWith("#") || href.startsWith("javascript:")) return;
+
+      // kalau link dicegat (confirm/cancel), jangan paksa tutup
+      setTimeout(() => {
+        if (e.defaultPrevented) return;
+        setSidebarOpen(false);
+      }, 0);
+    });
+  }
+
+  /* =========================
+     AUTO HIDE NOTIFICATION
+     ========================= */
+  const notifications = document.querySelectorAll(".notif");
+
+  if (notifications.length) {
+    setTimeout(() => {
+      notifications.forEach((notif) => {
+        notif.style.transition = "opacity 0.4s ease, transform 0.4s ease";
+        notif.style.opacity = "0";
+        notif.style.transform = "translateY(-6px)";
+
+        setTimeout(() => {
+          notif.remove();
+        }, 400);
+      });
+    }, 5000);
+  }
+
+  /* =========================
+     CLEAN URL (error/success)
+     ========================= */
+  if (
+    window.location.search.includes("error") ||
+    window.location.search.includes("success")
+  ) {
+    const cleanUrl = window.location.origin + window.location.pathname;
+    window.history.replaceState({}, document.title, cleanUrl);
+  }
+
+  /* =========================
+     USER AUTOCOMPLETE
+     ========================= */
+  window.emsInitUserAutocomplete =
+    window.emsInitUserAutocomplete ||
+    function (root = document) {
+      const wrappers = Array.from(
+        root.querySelectorAll("[data-user-autocomplete]:not([data-autocomplete-ready])")
+      );
+
+      wrappers.forEach((wrapper) => {
+        const input = wrapper.querySelector("[data-user-autocomplete-input]");
+        const hidden = wrapper.querySelector("[data-user-autocomplete-hidden]");
+        const list = wrapper.querySelector("[data-user-autocomplete-list]");
+        const scope = (wrapper.getAttribute("data-autocomplete-scope") || "all").trim();
+        const minChars = Number(wrapper.getAttribute("data-autocomplete-min") || "2");
+        const required = wrapper.hasAttribute("data-autocomplete-required");
+        let timer = null;
+
+        if (!input || !hidden || !list) return;
+        wrapper.setAttribute("data-autocomplete-ready", "1");
+
+        function clearList() {
+          list.innerHTML = "";
+          list.style.display = "none";
+        }
+
+        function setValidation() {
+          if (required && input.value.trim() !== "" && !hidden.value) {
+            input.setCustomValidity("Pilih nama dari daftar autocomplete.");
+          } else {
+            input.setCustomValidity("");
+          }
+        }
+
+        function renderItems(items) {
+          list.innerHTML = "";
+          if (!Array.isArray(items) || !items.length) {
+            clearList();
+            return;
+          }
+
+          items.forEach((item) => {
+            const option = document.createElement("div");
+            option.className = "medic-suggestion-item";
+            option.innerHTML =
+              '<div><strong>' +
+              String(item.full_name || "") +
+              "</strong></div>" +
+              '<small style="color:#64748b;">' +
+              [item.position, item.division].filter(Boolean).join(" | ") +
+              "</small>";
+
+            option.addEventListener("click", () => {
+              hidden.value = String(item.id || "");
+              input.value = String(item.full_name || "");
+              setValidation();
+              clearList();
+            });
+
+            list.appendChild(option);
+          });
+
+          list.style.display = "block";
+        }
+
+        async function searchUsers(query) {
+          if (!query || query.length < minChars) {
+            clearList();
+            return;
+          }
+
+          try {
+            const url =
+              window.emsUrl("/ajax/search_user_rh.php") +
+              "?q=" +
+              encodeURIComponent(query) +
+              "&scope=" +
+              encodeURIComponent(scope);
+            const response = await fetch(url, {
+              credentials: "same-origin",
+              headers: { Accept: "application/json" },
+            });
+            if (!response.ok) {
+              clearList();
+              return;
+            }
+
+            const data = await response.json();
+            renderItems(data);
+          } catch (e) {
+            clearList();
+          }
+        }
+
+        input.addEventListener("focus", () => {
+          if (list.children.length > 0) {
+            list.style.display = "block";
+          }
+        });
+
+        input.addEventListener("input", () => {
+          hidden.value = "";
+          setValidation();
+          clearTimeout(timer);
+          const query = input.value.trim();
+          timer = setTimeout(() => searchUsers(query), 180);
+        });
+
+        input.addEventListener("blur", () => {
+          setTimeout(() => {
+            clearList();
+            setValidation();
+          }, 150);
+        });
+
+        const form = input.closest("form");
+        if (form) {
+          form.addEventListener("submit", (event) => {
+            setValidation();
+            if (!form.checkValidity()) {
+              event.preventDefault();
+              try {
+                form.reportValidity();
+              } catch (e) {}
+            }
+          });
+        }
+      });
+    };
+
+  window.emsInitUserAutocomplete(document);
+});
+
+/* =========================================
+   HEARTBEAT — UPDATE LAST ACTIVITY
+   ========================================= */
+setInterval(() => {
+  fetch("/actions/ping_farmasi_activity.php", {
+    method: "POST",
+    credentials: "same-origin",
+  }).catch(() => {});
+}, 30000); // tiap 30 detik

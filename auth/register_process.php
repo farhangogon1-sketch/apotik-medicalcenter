@@ -1,0 +1,222 @@
+<?php
+session_start();
+require __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/helpers.php';
+
+function alphaPos($char)
+{
+    $char = strtoupper($char);
+    if ($char < 'A' || $char > 'Z') return null;
+    return ord($char) - 64;
+}
+
+function twoDigit($num)
+{
+    return str_pad($num, 2, '0', STR_PAD_LEFT);
+}
+
+$name   = trim($_POST['full_name'] ?? '');
+$pin    = trim($_POST['pin'] ?? '');
+$citizenId    = trim($_POST['citizen_id'] ?? '');
+$noHpIc       = trim($_POST['no_hp_ic'] ?? '');
+$jenisKelamin = $_POST['jenis_kelamin'] ?? '';
+$batch  = intval($_POST['batch'] ?? 0);
+$role   = $_POST['role'] ?? 'Staff';
+
+// DEFAULT
+$position = 'trainee';
+
+if ($name === '' || !preg_match('/^\d{4}$/', $pin)) {
+    header("Location: login.php?error=Data registrasi tidak valid");
+    exit;
+}
+
+if ($batch < 1 || $batch > 26) {
+    $_SESSION['error'] = 'Batch tidak valid';
+    header("Location: login.php");
+    exit;
+}
+
+if ($citizenId === '' || $noHpIc === '' || $jenisKelamin === '') {
+    $_SESSION['error'] = 'Data pribadi wajib diisi';
+    header("Location: login.php");
+    exit;
+}
+
+if (!in_array($jenisKelamin, ['Laki-laki', 'Perempuan'], true)) {
+    $_SESSION['error'] = 'Jenis kelamin tidak valid';
+    header("Location: login.php");
+    exit;
+}
+
+$checkCitizen = $pdo->prepare("SELECT id FROM user_rh WHERE citizen_id = ?");
+$checkCitizen->execute([$citizenId]);
+
+if ($checkCitizen->fetch()) {
+    $_SESSION['error'] = 'Citizen ID sudah terdaftar';
+    header("Location: login.php");
+    exit;
+}
+
+$check = $pdo->prepare("SELECT id FROM user_rh WHERE full_name = ?");
+$check->execute([$name]);
+
+if ($check->fetch()) {
+    $_SESSION['error'] = 'Nama sudah terdaftar';
+    header("Location: login.php");
+    exit;
+}
+
+$is_verified = ($role === 'Staff') ? 1 : 0;
+$is_active = 0;
+
+$stmt = $pdo->prepare("
+    INSERT INTO user_rh (
+        full_name,
+        pin,
+        position,
+        role,
+        batch,
+        citizen_id,
+        no_hp_ic,
+        jenis_kelamin,
+        is_verified,
+        is_active
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+");
+
+$stmt->execute([
+    $name,
+    password_hash($pin, PASSWORD_DEFAULT),
+    $position,
+    $role,
+    $batch,
+    $citizenId,
+    $noHpIc,
+    $jenisKelamin,
+    $is_verified,
+    $is_active
+]);
+
+$userId = $pdo->lastInsertId();
+
+// ===============================
+// GENERATE KODE NOMOR INDUK RS
+// FORMAT SAMA DENGAN SETTING AKUN
+// ===============================
+$batchCode = chr(64 + $batch); // 1 = A
+$idPart    = str_pad($userId, 2, '0', STR_PAD_LEFT);
+
+$nameParts = preg_split('/\s+/', strtoupper($name));
+$firstName = $nameParts[0] ?? '';
+$lastName  = $nameParts[count($nameParts) - 1] ?? '';
+
+$letters = substr($firstName, 0, 2) . substr($lastName, 0, 2);
+
+$nameCodes = [];
+foreach (str_split($letters) as $char) {
+    $pos = alphaPos($char);
+    if ($pos !== null) {
+        $nameCodes[] = twoDigit($pos);
+    }
+}
+
+$kodeNomorInduk = 'RH' . $batchCode . '-' . $idPart . implode('', $nameCodes);
+
+$folderName = 'user_' . $userId . '-' . strtolower($kodeNomorInduk);
+$baseDir    = __DIR__ . '/../storage/user_docs/';
+$uploadDir  = $baseDir . $folderName;
+
+if (!is_dir($uploadDir) && !mkdir($uploadDir, 0755, true)) {
+    $_SESSION['error'] = 'Gagal membuat folder dokumen';
+    header('Location: login.php');
+    exit;
+}
+
+$docFields = ['sertifikat_heli', 'sertifikat_operasi'];
+$uploadedPaths = [];
+
+foreach ($docFields as $field) {
+
+    if (
+        empty($_FILES[$field]['tmp_name']) ||
+        $_FILES[$field]['error'] !== UPLOAD_ERR_OK
+    ) {
+        continue;
+    }
+
+    $tmp  = $_FILES[$field]['tmp_name'];
+    $info = getimagesize($tmp);
+
+    if (!$info || !in_array($info['mime'], ['image/jpeg', 'image/png'], true)) {
+        $_SESSION['error'] = "File sertifikat harus JPG atau PNG";
+        header('Location: login.php');
+        exit;
+    }
+
+    $ext = $info['mime'] === 'image/png' ? 'png' : 'jpg';
+    $finalPath = $uploadDir . '/' . $field . '.' . $ext;
+
+    if (!compressImageSmart($tmp, $finalPath)) {
+        $_SESSION['error'] = "Gagal memproses sertifikat";
+        header('Location: login.php');
+        exit;
+    }
+
+    $uploadedPaths[$field] =
+        'storage/user_docs/' . $folderName . '/' . $field . '.' . $ext;
+}
+
+$academyJson = null;
+if (
+    !empty($_FILES['academy_doc_file']['tmp_name']) &&
+    ($_FILES['academy_doc_file']['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK
+) {
+    $tmp = $_FILES['academy_doc_file']['tmp_name'];
+    $info = getimagesize($tmp);
+
+    if (!$info || !in_array($info['mime'], ['image/jpeg', 'image/png'], true)) {
+        $_SESSION['error'] = 'Sertifikat Academy harus JPG atau PNG';
+        header('Location: login.php');
+        exit;
+    }
+
+    $id = bin2hex(random_bytes(8));
+    $ext = $info['mime'] === 'image/png' ? 'png' : 'jpg';
+    $finalPath = $uploadDir . '/academy_' . $id . '.' . $ext;
+
+    if (!compressImageSmart($tmp, $finalPath)) {
+        $_SESSION['error'] = 'Gagal memproses Sertifikat Academy';
+        header('Location: login.php');
+        exit;
+    }
+
+    $path = 'storage/user_docs/' . $folderName . '/academy_' . $id . '.' . $ext;
+    $academyJson = json_encode([[
+        'id' => $id,
+        'name' => 'Sertifikat Academy',
+        'path' => $path,
+    ]], JSON_UNESCAPED_SLASHES);
+}
+
+$sql = "UPDATE user_rh SET kode_nomor_induk_rs = ?";
+$params = [$kodeNomorInduk];
+
+foreach ($uploadedPaths as $col => $path) {
+    $sql .= ", {$col} = ?";
+    $params[] = $path;
+}
+
+if ($academyJson !== null) {
+    $sql .= ", dokumen_lainnya = ?";
+    $params[] = $academyJson;
+}
+
+$sql .= " WHERE id = ?";
+$params[] = $userId;
+
+$pdo->prepare($sql)->execute($params);
+
+$_SESSION['success'] = 'Registrasi berhasil. Akun menunggu aktivasi manager sebelum bisa login.';
+header("Location: login.php");
+exit;
