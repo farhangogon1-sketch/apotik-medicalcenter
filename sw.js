@@ -4,7 +4,7 @@ self.addEventListener("push", function (event) {
   event.waitUntil(
     self.registration.showNotification(data.title || "Notifikasi EMS", {
       body: data.body || "",
-      icon: data.icon || "/assets/img/logo.png",
+      icon: data.icon || "/assets/logo.png",
       data: { url: data.url || "/" },
     }),
   );

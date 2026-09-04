@@ -10,7 +10,30 @@ require_once __DIR__ . '/../assets/design/ui/icon.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>Masuk - EMS</title>
+    <title>Masuk - iMe Medical Center</title>
+
+    <!-- Favicon & Icons for Browser and Google Search -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=<?= @filemtime(__DIR__ . '/../favicon.ico') ?: 2 ?>">
+    <link rel="shortcut icon" href="/favicon.ico?v=<?= @filemtime(__DIR__ . '/../favicon.ico') ?: 2 ?>">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png?v=<?= @filemtime(__DIR__ . '/../icon-192.png') ?: 2 ?>">
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png?v=<?= @filemtime(__DIR__ . '/../icon-512.png') ?: 2 ?>">
+    <link rel="apple-touch-icon" href="/icon-192.png?v=<?= @filemtime(__DIR__ . '/../icon-192.png') ?: 2 ?>">
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- SEO & OpenGraph for Google / Social Preview -->
+    <meta name="description" content="Portal Masuk Layanan Medis & Farmasi iMe Medical Center">
+    <meta property="og:title" content="Masuk - iMe Medical Center">
+    <meta property="og:description" content="Portal Masuk Layanan Medis & Farmasi iMe Medical Center">
+    <meta property="og:image" content="/icon-512.png?v=<?= @filemtime(__DIR__ . '/../icon-512.png') ?: 2 ?>">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "MedicalOrganization",
+      "name": "iMe Medical Center",
+      "url": "https://apotik.medicalcenter.my.id",
+      "logo": "https://apotik.medicalcenter.my.id/assets/logo.png"
+    }
+    </script>
 
     <!-- Local assets only (no old CSS, no CDN) -->
     <link rel="stylesheet" href="/assets/vendor/photoswipe/photoswipe.css">
@@ -26,7 +49,7 @@ require_once __DIR__ . '/../assets/design/ui/icon.php';
 
                     <!-- BRAND / LOGO -->
                     <div class="mb-6 flex flex-col items-center gap-3 text-center">
-                        <img src="/assets/logo.png" alt="Logo EMS" class="h-14 w-14 rounded-2xl bg-white object-contain p-2.5 shadow-soft">
+                        <img src="/assets/logo.png?v=<?= @filemtime(__DIR__ . '/../assets/logo.png') ?: 2 ?>" alt="Logo iMe Medical Center" class="h-14 w-14 rounded-2xl bg-white object-contain p-2.5 shadow-soft">
                         <div class="min-w-0">
                             <div class="text-sm font-extrabold tracking-wide text-slate-900">iMe Medical Center</div>
                             <div class="text-xs font-semibold text-slate-600">Emergency Medical System</div>

@@ -9,6 +9,12 @@ require_once __DIR__ . '/../assets/design/ui/icon.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pendaftaran Selesai - iMe Medical Center</title>
 
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=2">
+    <link rel="shortcut icon" href="/favicon.ico?v=2">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png?v=2">
+    <link rel="apple-touch-icon" href="/icon-192.png?v=2">
+    <link rel="manifest" href="/manifest.json">
+
     <link rel="stylesheet" href="/assets/design/tailwind/build.css">
 </head>
 
@@ -17,7 +23,7 @@ require_once __DIR__ . '/../assets/design/ui/icon.php';
         <div class="public-layout">
             <aside class="public-panel public-panel-hero public-sticky">
                 <div class="public-brand">
-                    <img src="/assets/logo.png" alt="Logo iMe Medical Center" class="public-brand-logo">
+                    <img src="/assets/logo.png?v=2" alt="Logo iMe Medical Center" class="public-brand-logo">
                     <div class="public-brand-text">
                         <span class="public-kicker">Recruitment Complete</span>
                         <strong class="text-lg font-bold text-white">iMe Medical Center</strong>
