@@ -35,24 +35,27 @@ require_once __DIR__ . '/../assets/design/ui/icon.php';
     }
     </script>
 
-    <!-- Local assets only (no old CSS, no CDN) -->
+    <!-- Local assets & theme -->
+    <link rel="stylesheet" href="/assets/css/inter-font.css">
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="/assets/vendor/photoswipe/photoswipe.css">
     <link rel="stylesheet" href="/assets/design/tailwind/build.css">
+    <link rel="stylesheet" href="/assets/css/overrides.css">
 </head>
 
-<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-sky-900">
+<body class="min-h-screen bg-gradient-to-br from-sky-950 via-sky-900 to-slate-950">
 
     <div id="authShell" class="min-h-screen flex items-center justify-center px-4 py-10">
         <div class="mx-auto flex w-full max-w-6xl justify-center">
             <div id="authCard" class="w-full max-w-[420px] transition-[max-width] duration-300">
-                <div class="rounded-3xl border border-white/60 bg-white/85 p-6 shadow-modal backdrop-blur">
+                <div class="rounded-3xl border border-sky-400/40 bg-sky-950/85 p-6 sm:p-8 shadow-2xl backdrop-blur-xl text-white">
 
                     <!-- BRAND / LOGO -->
                     <div class="mb-6 flex flex-col items-center gap-3 text-center">
-                        <img src="/assets/logo.png?v=<?= @filemtime(__DIR__ . '/../assets/logo.png') ?: 2 ?>" alt="Logo iMe Medical Center" class="h-14 w-14 rounded-2xl bg-white object-contain p-2.5 shadow-soft">
+                        <img src="/assets/logo.png?v=<?= @filemtime(__DIR__ . '/../assets/logo.png') ?: 2 ?>" alt="Logo iMe Medical Center" class="h-16 w-16 rounded-2xl bg-white/95 object-contain p-2 shadow-lg border border-sky-300/40">
                         <div class="min-w-0">
-                            <div class="text-sm font-extrabold tracking-wide text-slate-900">iMe Medical Center</div>
-                            <div class="text-xs font-semibold text-slate-600">Emergency Medical System</div>
+                            <div class="text-base font-extrabold tracking-wide text-white">iMe Medical Center</div>
+                            <div class="text-xs font-semibold text-sky-300">Emergency Medical System</div>
                         </div>
                     </div>
 
@@ -81,7 +84,7 @@ require_once __DIR__ . '/../assets/design/ui/icon.php';
                                 <div class="modal-box modal-shell modal-frame-md">
                                     <div class="modal-head">
                                         <div class="modal-title inline-flex items-center gap-2">
-                                            <?= ems_icon('exclamation-triangle', 'h-5 w-5 text-amber-600') ?>
+                                            <?= ems_icon('exclamation-triangle', 'h-5 w-5 text-amber-400') ?>
                                             <span>Perangkat Lain Terdeteksi</span>
                                         </div>
                                         <a href="login.php" class="modal-close-btn" aria-label="Tutup">
@@ -90,7 +93,7 @@ require_once __DIR__ . '/../assets/design/ui/icon.php';
                                     </div>
 
                                     <div class="modal-content">
-                                        <p class="text-sm text-slate-700">
+                                        <p class="text-sm text-sky-100">
                                             Akun ini sedang aktif di perangkat lain.
                                             Jika Anda melanjutkan, perangkat sebelumnya akan otomatis keluar.
                                         </p>
@@ -114,12 +117,12 @@ require_once __DIR__ . '/../assets/design/ui/icon.php';
                         <?php endif; ?>
 
                         <div>
-                            <div class="text-lg font-semibold text-slate-900">Masuk</div>
-                            <div class="text-sm text-slate-600">Gunakan nama lengkap dan PIN 4 digit.</div>
+                            <div class="text-xl font-bold text-white">Masuk Portal Staf</div>
+                            <div class="text-sm text-sky-200">Gunakan nama lengkap dan PIN 4 digit.</div>
                         </div>
 
                         <div class="form-group">
-                            <label class="text-sm font-semibold text-slate-900">Nama Lengkap</label>
+                            <label class="text-sm font-semibold text-sky-100">Nama Lengkap</label>
                             <input
                                 type="text"
                                 name="full_name"
@@ -131,7 +134,7 @@ require_once __DIR__ . '/../assets/design/ui/icon.php';
                         </div>
 
                         <div class="form-group">
-                            <label class="text-sm font-semibold text-slate-900">PIN</label>
+                            <label class="text-sm font-semibold text-sky-100">PIN</label>
                             <input
                                 type="password"
                                 name="pin"
@@ -144,15 +147,15 @@ require_once __DIR__ . '/../assets/design/ui/icon.php';
                         </div>
 
                         <div class="form-submit-wrapper">
-                            <button type="submit" class="btn-success w-full justify-center">
+                            <button type="submit" class="btn-primary w-full justify-center">
                                 <?= ems_icon('arrow-right-on-rectangle', 'h-4 w-4') ?>
                                 <span>Masuk</span>
                             </button>
                         </div>
 
-                        <p class="mt-3 text-sm text-slate-600">
+                        <p class="mt-4 text-center text-sm text-sky-200">
                             Belum punya akun?
-                            <a href="javascript:void(0)" class="font-semibold text-sky-700 hover:text-sky-800" onclick="showRegister()">Daftar</a>
+                            <a href="javascript:void(0)" class="font-bold text-cyan-300 hover:text-cyan-100 transition-colors" onclick="showRegister()">Daftar Akun Baru</a>
                         </p>
                     </form>
 
@@ -342,16 +345,16 @@ require_once __DIR__ . '/../assets/design/ui/icon.php';
                             </div>
 
                             <div class="form-submit-wrapper">
-                                <button type="submit" class="btn-success w-full justify-center">
+                                <button type="submit" class="btn-primary w-full justify-center">
                                     <?= ems_icon('plus', 'h-4 w-4') ?>
-                                    <span>Daftar</span>
+                                    <span>Daftar Akun</span>
                                 </button>
                             </div>
                         </div>
 
-                        <p class="mt-3 text-sm text-slate-600">
+                        <p class="mt-4 text-center text-sm text-sky-200">
                             Sudah punya akun?
-                            <a href="javascript:void(0)" class="font-semibold text-sky-700 hover:text-sky-800" onclick="showLogin()">Masuk</a>
+                            <a href="javascript:void(0)" class="font-bold text-cyan-300 hover:text-cyan-100 transition-colors" onclick="showLogin()">Masuk Kembali</a>
                         </p>
                     </form>
 

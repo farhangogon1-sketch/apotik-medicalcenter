@@ -15,8 +15,10 @@ require_once __DIR__ . '/../assets/design/ui/icon.php';
     <link rel="apple-touch-icon" href="/icon-192.png?v=2">
     <link rel="manifest" href="/manifest.json">
 
+    <link rel="stylesheet" href="/assets/css/inter-font.css">
     <link rel="stylesheet" href="/assets/vendor/photoswipe/photoswipe.css">
     <link rel="stylesheet" href="/assets/design/tailwind/build.css">
+    <link rel="stylesheet" href="/assets/css/overrides.css">
 </head>
 
 <body>

@@ -60,6 +60,8 @@ if ($userId) {
     <link rel="icon" type="image/png" sizes="512x512" href="<?= htmlspecialchars(ems_asset('/icon-512.png'), ENT_QUOTES, 'UTF-8') ?>">
     <link rel="apple-touch-icon" href="<?= htmlspecialchars(ems_asset('/icon-192.png'), ENT_QUOTES, 'UTF-8') ?>">
     <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="<?= htmlspecialchars(ems_asset('/assets/css/inter-font.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(ems_asset('/assets/css/font-awesome.min.css'), ENT_QUOTES, 'UTF-8') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(ems_asset('/assets/vendor/datatables/dataTables.dataTables.min.css'), ENT_QUOTES, 'UTF-8') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(ems_asset('/assets/vendor/datatables/buttons.dataTables.min.css'), ENT_QUOTES, 'UTF-8') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(ems_asset('/assets/vendor/photoswipe/photoswipe.css'), ENT_QUOTES, 'UTF-8') ?>">
