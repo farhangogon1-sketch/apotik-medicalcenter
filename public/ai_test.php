@@ -93,7 +93,7 @@ $questions = [
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Pertanyaan - Roxwood Hospital</title>
+    <title>Form Pertanyaan - iMe Medical Center</title>
     <link rel="stylesheet" href="/assets/design/tailwind/build.css">
 </head>
 
@@ -102,10 +102,10 @@ $questions = [
         <div class="public-layout">
             <aside class="public-panel public-panel-hero public-sticky">
                 <div class="public-brand">
-                    <img src="/assets/logo.png" alt="Logo Roxwood Hospital" class="public-brand-logo">
+                    <img src="/assets/logo.png" alt="Logo iMe Medical Center" class="public-brand-logo">
                     <div class="public-brand-text">
                         <span class="public-kicker">Assessment Stage</span>
-                        <strong class="text-lg font-bold text-white">Roxwood Hospital</strong>
+                        <strong class="text-lg font-bold text-white">iMe Medical Center</strong>
                         <span class="meta-text">Psychometric Screening</span>
                     </div>
                 </div>

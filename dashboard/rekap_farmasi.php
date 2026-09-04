@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 // =======================================
 // ERROR LOG CONFIG (PRODUCTION SAFE)
@@ -352,7 +352,7 @@ $currentUserProfile = $stmtCurrentUser->fetch(PDO::FETCH_ASSOC) ?: [];
 
 $missingProfileFields = [];
 if (empty($currentUserProfile['tanggal_masuk'])) {
-    $missingProfileFields[] = 'Tanggal join ke Roxwood Hospital';
+    $missingProfileFields[] = 'Tanggal join ke iMe Medical Center';
 }
 if (empty($currentUserProfile['citizen_id'])) {
     $missingProfileFields[] = 'Citizen ID';

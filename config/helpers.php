@@ -786,7 +786,7 @@ function format_surat_cuti(array $data): string
 
     $surat = "Tanggal RL    : {$tanggal}\n";
     $surat .= "Hal           : Cuti\n\n";
-    $surat .= "Direktur ROXWOOD HOSPITAL,\n";
+    $surat .= "Direktur IME MEDICAL CENTER,\n";
     $surat .= "di Tempat\n\n";
     $surat .= "Dengan hormat,\n";
     $surat .= "Saya yang bertanda tangan dibawah di bawah ini:\n";
@@ -819,7 +819,7 @@ function format_surat_resign(array $data): string
 
     $surat = "Tanggal RL    : {$tanggal}\n";
     $surat .= "Hal           : Resign\n\n";
-    $surat .= "Direktur ROXWOOD HOSPITAL,\n";
+    $surat .= "Direktur IME MEDICAL CENTER,\n";
     $surat .= "di Tempat\n\n";
     $surat .= "Dengan hormat,\n";
     $surat .= "Saya yang bertanda tangan dibawah di bawah ini:\n";

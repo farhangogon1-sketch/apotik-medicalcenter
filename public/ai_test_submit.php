@@ -3,7 +3,7 @@
 /**
  * =========================================================
  * AI TEST SUBMIT — IMPROVED VERSION
- * Roxwood Hospital Recruitment System
+ * iMe Medical Center Recruitment System
  * =========================================================
  * - Validasi lengkap sebelum proses
  * - Scoring yang lebih balanced

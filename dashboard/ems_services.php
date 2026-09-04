@@ -576,7 +576,7 @@ include __DIR__ . '/../partials/sidebar.php';
     <div class="page page-shell">
 
         <h1 class="page-title">Input Layanan Medis EMS</h1>
-        <p class="page-subtitle">Sesuai Regulasi Roxwood Hospital</p>
+        <p class="page-subtitle">Sesuai Regulasi iMe Medical Center</p>
 
         <?php foreach ($messages as $m): ?>
             <div class="alert alert-info"><?= htmlspecialchars($m) ?></div>

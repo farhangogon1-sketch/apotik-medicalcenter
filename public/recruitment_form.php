@@ -7,7 +7,7 @@ require_once __DIR__ . '/../assets/design/ui/icon.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pendaftaran Calon Medis - Roxwood Hospital</title>
+    <title>Pendaftaran Calon Medis - iMe Medical Center</title>
 
     <link rel="stylesheet" href="/assets/vendor/photoswipe/photoswipe.css">
     <link rel="stylesheet" href="/assets/design/tailwind/build.css">
@@ -18,10 +18,10 @@ require_once __DIR__ . '/../assets/design/ui/icon.php';
         <div class="public-layout">
             <aside class="public-panel public-panel-hero public-sticky">
                 <div class="public-brand">
-                    <img src="/assets/logo.png" alt="Logo Roxwood Hospital" class="public-brand-logo">
+                    <img src="/assets/logo.png" alt="Logo iMe Medical Center" class="public-brand-logo">
                     <div class="public-brand-text">
                         <span class="public-kicker">Recruitment Portal</span>
-                        <strong class="text-lg font-bold text-white">Roxwood Hospital</strong>
+                        <strong class="text-lg font-bold text-white">iMe Medical Center</strong>
                         <span class="meta-text">Emergency Medical System</span>
                     </div>
                 </div>
@@ -163,7 +163,7 @@ require_once __DIR__ . '/../assets/design/ui/icon.php';
                         </div>
 
                         <div class="form-group">
-                            <label for="duty_duration" class="text-sm font-semibold text-slate-900">Perkiraan Waktu Duty di Roxwood Hospital</label>
+                            <label for="duty_duration" class="text-sm font-semibold text-slate-900">Perkiraan Waktu Duty di iMe Medical Center</label>
                             <small class="hint-info">Contoh: 2-4 jam per hari, fleksibel, atau jadwal tertentu.</small>
                             <input type="text" id="duty_duration" name="duty_duration" placeholder="Tulis estimasi durasi duty" required>
                         </div>
@@ -176,7 +176,7 @@ require_once __DIR__ . '/../assets/design/ui/icon.php';
                         </div>
 
                         <div class="form-group">
-                            <label for="motivation" class="text-sm font-semibold text-slate-900">Alasan Bergabung dengan Roxwood Hospital</label>
+                            <label for="motivation" class="text-sm font-semibold text-slate-900">Alasan Bergabung dengan iMe Medical Center</label>
                             <textarea id="motivation" name="motivation" rows="3" placeholder="Jelaskan alasan Anda ingin bergabung" required></textarea>
                         </div>
 

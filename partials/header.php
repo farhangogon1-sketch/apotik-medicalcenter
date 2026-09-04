@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -106,7 +106,7 @@ if ($userId) {
 	                <div class="topbar-brand">
 	                    <img src="<?= htmlspecialchars(ems_asset('/assets/logo.png'), ENT_QUOTES, 'UTF-8') ?>" alt="EMS Logo" class="topbar-logo">
 	                    <div class="topbar-text">
-	                        <div class="topbar-title">Roxwood Hospital</div>
+	                        <div class="topbar-title">iMe Medical Center</div>
 	                        <div class="topbar-subtitle">Emergency Medical System</div>
 	                    </div>
 	                </div>

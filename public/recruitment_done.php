@@ -7,7 +7,7 @@ require_once __DIR__ . '/../assets/design/ui/icon.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pendaftaran Selesai - Roxwood Hospital</title>
+    <title>Pendaftaran Selesai - iMe Medical Center</title>
 
     <link rel="stylesheet" href="/assets/design/tailwind/build.css">
 </head>
@@ -17,17 +17,17 @@ require_once __DIR__ . '/../assets/design/ui/icon.php';
         <div class="public-layout">
             <aside class="public-panel public-panel-hero public-sticky">
                 <div class="public-brand">
-                    <img src="/assets/logo.png" alt="Logo Roxwood Hospital" class="public-brand-logo">
+                    <img src="/assets/logo.png" alt="Logo iMe Medical Center" class="public-brand-logo">
                     <div class="public-brand-text">
                         <span class="public-kicker">Recruitment Complete</span>
-                        <strong class="text-lg font-bold text-white">Roxwood Hospital</strong>
+                        <strong class="text-lg font-bold text-white">iMe Medical Center</strong>
                         <span class="meta-text">Emergency Medical System</span>
                     </div>
                 </div>
 
                 <h1 class="public-heading">Pendaftaran Berhasil Dikirim</h1>
                 <p class="public-copy">
-                    Data pendaftaran dan jawaban assessment Anda sudah diterima oleh sistem rekrutmen Roxwood Hospital.
+                    Data pendaftaran dan jawaban assessment Anda sudah diterima oleh sistem rekrutmen iMe Medical Center.
                 </p>
 
                 <div class="public-feature-list">
@@ -87,7 +87,7 @@ require_once __DIR__ . '/../assets/design/ui/icon.php';
                 </div>
 
                 <small class="mt-5 block text-center text-xs text-slate-500">
-                    Roxwood Hospital Recruitment System
+                    iMe Medical Center Recruitment System
                 </small>
             </main>
         </div>

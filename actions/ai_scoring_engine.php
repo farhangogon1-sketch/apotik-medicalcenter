@@ -3,7 +3,7 @@
 /**
  * =========================================================
  * AI PSYCHOMETRIC SCORING ENGINE
- * Roxwood Hospital Recruitment System
+ * iMe Medical Center Recruitment System
  * =========================================================
  *
  * DIMENSIONS:

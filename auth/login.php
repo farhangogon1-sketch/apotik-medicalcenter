@@ -28,7 +28,7 @@ require_once __DIR__ . '/../assets/design/ui/icon.php';
                     <div class="mb-6 flex flex-col items-center gap-3 text-center">
                         <img src="/assets/logo.png" alt="Logo EMS" class="h-14 w-14 rounded-2xl bg-white object-contain p-2.5 shadow-soft">
                         <div class="min-w-0">
-                            <div class="text-sm font-extrabold tracking-wide text-slate-900">Roxwood Hospital</div>
+                            <div class="text-sm font-extrabold tracking-wide text-slate-900">iMe Medical Center</div>
                             <div class="text-xs font-semibold text-slate-600">Emergency Medical System</div>
                         </div>
                     </div>
