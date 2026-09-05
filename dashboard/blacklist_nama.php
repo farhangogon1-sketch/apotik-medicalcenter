@@ -25,21 +25,29 @@ if (!$canAccess) {
 
 $pageTitle = 'Blacklist Nama';
 
-// Pastikan tabel blacklist_nama tersedia
+// Deteksi apakah menggunakan consumer_blacklist (tabel bawaan DB) atau blacklist_nama
+$useConsumerBlacklist = false;
 try {
-    $pdo->exec("
-        CREATE TABLE IF NOT EXISTS blacklist_nama (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            nama VARCHAR(255) NOT NULL UNIQUE,
-            alasan TEXT NULL,
-            created_by VARCHAR(255) NULL,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-            updated_at DATETIME NULL ON UPDATE CURRENT_TIMESTAMP,
-            INDEX idx_nama (nama)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-    ");
-} catch (Throwable $e) {
-    // Abaikan jika tabel sudah ada atau izin terbatas
+    $stmtCheck = $pdo->query("SHOW TABLES LIKE 'consumer_blacklist'");
+    if ($stmtCheck && $stmtCheck->rowCount() > 0) {
+        $useConsumerBlacklist = true;
+    }
+} catch (Throwable $e) {}
+
+if (!$useConsumerBlacklist) {
+    try {
+        $pdo->exec("
+            CREATE TABLE IF NOT EXISTS blacklist_nama (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                nama VARCHAR(255) NOT NULL UNIQUE,
+                alasan TEXT NULL,
+                created_by VARCHAR(255) NULL,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                updated_at DATETIME NULL ON UPDATE CURRENT_TIMESTAMP,
+                INDEX idx_nama (nama)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+        ");
+    } catch (Throwable $e) {}
 }
 
 // Flash messages
@@ -60,15 +68,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['flash_errors'][] = 'Nama konsumen tidak boleh kosong.';
         } else {
             try {
-                $stmt = $pdo->prepare("
-                    INSERT INTO blacklist_nama (nama, alasan, created_by, created_at)
-                    VALUES (?, ?, ?, NOW())
-                    ON DUPLICATE KEY UPDATE
-                        alasan = VALUES(alasan),
-                        created_by = VALUES(created_by),
-                        updated_at = NOW()
-                ");
-                $stmt->execute([$nama, $alasan, $creator]);
+                if ($useConsumerBlacklist) {
+                    $key = strtolower(preg_replace('/\s+/', ' ', $nama));
+                    $stmt = $pdo->prepare("
+                        INSERT INTO consumer_blacklist (consumer_name, consumer_name_key, note, is_active, created_by, created_at)
+                        VALUES (?, ?, ?, 1, ?, NOW())
+                        ON DUPLICATE KEY UPDATE
+                            note = VALUES(note),
+                            is_active = 1,
+                            updated_at = NOW()
+                    ");
+                    $stmt->execute([$nama, $key, $alasan, $creator]);
+                } else {
+                    $stmt = $pdo->prepare("
+                        INSERT INTO blacklist_nama (nama, alasan, created_by, created_at)
+                        VALUES (?, ?, ?, NOW())
+                        ON DUPLICATE KEY UPDATE
+                            alasan = VALUES(alasan),
+                            created_by = VALUES(created_by),
+                            updated_at = NOW()
+                    ");
+                    $stmt->execute([$nama, $alasan, $creator]);
+                }
                 $_SESSION['flash_messages'][] = "Nama '{$nama}' berhasil dimasukkan ke daftar blacklist.";
             } catch (Throwable $e) {
                 $_SESSION['flash_errors'][] = 'Gagal menyimpan blacklist: ' . $e->getMessage();
@@ -82,7 +103,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id = (int)($_POST['id'] ?? 0);
         if ($id > 0) {
             try {
-                $stmt = $pdo->prepare("DELETE FROM blacklist_nama WHERE id = ?");
+                if ($useConsumerBlacklist) {
+                    $stmt = $pdo->prepare("DELETE FROM consumer_blacklist WHERE id = ?");
+                } else {
+                    $stmt = $pdo->prepare("DELETE FROM blacklist_nama WHERE id = ?");
+                }
                 $stmt->execute([$id]);
                 $_SESSION['flash_messages'][] = 'Nama berhasil dihapus dari daftar blacklist.';
             } catch (Throwable $e) {
@@ -97,16 +122,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Filter pencarian
 $q = trim($_GET['q'] ?? '');
 $params = [];
-$sql = "SELECT id, nama, alasan, created_by, created_at FROM blacklist_nama WHERE 1=1";
 
-if ($q !== '') {
-    $sql .= " AND (nama LIKE ? OR alasan LIKE ? OR created_by LIKE ?)";
-    $params[] = "%{$q}%";
-    $params[] = "%{$q}%";
-    $params[] = "%{$q}%";
+if ($useConsumerBlacklist) {
+    $sql = "SELECT id, consumer_name AS nama, note AS alasan, created_by, created_at FROM consumer_blacklist WHERE is_active = 1";
+    if ($q !== '') {
+        $sql .= " AND (consumer_name LIKE ? OR note LIKE ? OR created_by LIKE ?)";
+        $params[] = "%{$q}%";
+        $params[] = "%{$q}%";
+        $params[] = "%{$q}%";
+    }
+    $sql .= " ORDER BY created_at DESC";
+} else {
+    $sql = "SELECT id, nama, alasan, created_by, created_at FROM blacklist_nama WHERE 1=1";
+    if ($q !== '') {
+        $sql .= " AND (nama LIKE ? OR alasan LIKE ? OR created_by LIKE ?)";
+        $params[] = "%{$q}%";
+        $params[] = "%{$q}%";
+        $params[] = "%{$q}%";
+    }
+    $sql .= " ORDER BY created_at DESC";
 }
-
-$sql .= " ORDER BY created_at DESC";
 
 try {
     $stmt = $pdo->prepare($sql);
