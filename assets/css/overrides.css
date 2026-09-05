@@ -180,58 +180,164 @@ header.topbar {
 }
 
 /* =========================================================
-   PAGE HEADERS & LABELS
+   PAGE HEADERS & LAYOUT CONTAINER (UNIFIED THEME)
+   Removes the awkward stacked translucent white container
+   so all pages blend seamlessly into the Dark Sky Blue theme.
    ========================================================= */
+.page,
+.page-shell,
+.page-shell-md,
+.page-shell-sm,
+.content,
+.main-content,
+section.content {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.page,
+.page-shell,
+.page-shell-md,
+.page-shell-sm {
+  width: 100% !important;
+  max-width: 1360px !important;
+  margin: 0 auto !important;
+  padding: 0 6px !important;
+}
+
 .page-title {
   color: #ffffff !important;
   font-weight: 900 !important;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
-  letter-spacing: -0.02em;
+  font-size: 1.75rem !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+  letter-spacing: -0.02em !important;
+  margin-bottom: 4px !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background: none !important;
 }
 
 .page-subtitle {
   color: #bae6fd !important;
-  font-weight: 500;
+  font-weight: 500 !important;
+  font-size: 13.5px !important;
+  margin-bottom: 20px !important;
 }
 
 .section-title {
   color: #ffffff !important;
   font-weight: 800 !important;
+  font-size: 1rem !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin-top: 24px !important;
+  margin-bottom: 14px !important;
 }
 
 /* =========================================================
-   CARDS & GLASSMORPHISM SURFACES
+   CARDS & GLASSMORPHISM SURFACES (DEEP NAVY SLATE GLASS)
    ========================================================= */
 .card,
 .public-panel,
-.dashboard-grid .card,
 .stat-card,
 .request-card,
 .request-approval-card {
-  background: rgba(7, 89, 133, 0.88) !important;
+  background: rgba(8, 22, 48, 0.82) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
-  border: 1px solid rgba(14, 165, 233, 0.4) !important;
-  border-radius: 1.25rem !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25) !important;
+  border: 1px solid rgba(56, 189, 248, 0.25) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35) !important;
   color: #f8fafc !important;
+  padding: 20px !important;
+  margin-bottom: 20px !important;
 }
 
 .card-header,
-.request-card-title {
+.request-card-title,
+.card-header-actions-title {
   color: #ffffff !important;
-  border-bottom: 1px solid rgba(14, 165, 233, 0.25) !important;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.2) !important;
   font-weight: 700 !important;
-}
-
-.card p,
-.card span,
-.card div:not(.btn):not(.badge) {
-  color: #f1f5f9;
+  font-size: 15px !important;
+  padding-bottom: 12px !important;
+  margin-bottom: 16px !important;
 }
 
 .card-muted {
-  background: rgba(12, 74, 110, 0.75) !important;
+  background: rgba(11, 27, 58, 0.7) !important;
+}
+
+/* Dashboard Statistics Cards Grid */
+.dashboard-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)) !important;
+  gap: 14px !important;
+  margin-bottom: 24px !important;
+}
+
+.dashboard-grid .card {
+  background: rgba(8, 22, 48, 0.78) !important;
+  border: 1px solid rgba(56, 189, 248, 0.22) !important;
+  border-radius: 14px !important;
+  padding: 14px 16px !important;
+  margin-bottom: 0 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.dashboard-grid .card:hover {
+  transform: translateY(-2px) !important;
+  border-color: rgba(56, 189, 248, 0.55) !important;
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.25) !important;
+}
+
+.dashboard-grid .card .card-header {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  color: #7dd3fc !important;
+  border-bottom: none !important;
+  margin-bottom: 6px !important;
+  padding-bottom: 0 !important;
+}
+
+.dashboard-grid .card h2 {
+  font-size: 20px !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+  margin: 0 !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* =========================================================
+   SEARCH & FILTER PANELS (COHESIVE DARK TRANSLUCENT)
+   ========================================================= */
+.search-panel,
+.search-form-inline,
+.card-section.search-panel,
+.filter-bar.search-panel,
+.filter-bar {
+  background: rgba(11, 27, 58, 0.6) !important;
+  border: 1px solid rgba(56, 189, 248, 0.2) !important;
+  border-radius: 14px !important;
+  padding: 14px 16px !important;
+  color: #f1f5f9 !important;
+  margin-bottom: 16px !important;
+}
+
+.card-header-actions {
+  border-bottom: 1px solid rgba(56, 189, 248, 0.2) !important;
+  padding-bottom: 12px !important;
+  margin-bottom: 16px !important;
 }
 
 /* =========================================================
@@ -1288,3 +1394,223 @@ small,
   border-color: rgba(239, 68, 68, 0.5) !important;
   color: #fecdd3 !important;
 }
+
+/* =========================================================
+   REKAP GAJI - SUMMARY HERO & METRIC TILES
+   Fixes washed out white cards & invisible text
+   ========================================================= */
+.salary-summary {
+  background: rgba(8, 22, 48, 0.85) !important;
+  border: 1px solid rgba(56, 189, 248, 0.25) !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35) !important;
+}
+
+.salary-summary-hero {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.18) 0%, rgba(8, 22, 48, 0.6) 100%) !important;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.2) !important;
+  padding: 20px !important;
+}
+
+.salary-summary-title {
+  color: #7dd3fc !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+.salary-summary-value {
+  color: #ffffff !important;
+  font-size: 28px !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.02em !important;
+}
+
+.salary-summary-sub {
+  color: #94a3b8 !important;
+  font-size: 13px !important;
+  margin-top: 4px !important;
+}
+
+.salary-progress-track {
+  background: rgba(15, 23, 42, 0.8) !important;
+  border: 1px solid rgba(56, 189, 248, 0.25) !important;
+  height: 8px !important;
+  border-radius: 999px !important;
+}
+
+.salary-progress-bar {
+  background: linear-gradient(90deg, #10b981, #06b6d4) !important;
+  border-radius: 999px !important;
+}
+
+.salary-progress-meta {
+  color: #bae6fd !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+}
+
+.salary-metrics {
+  background: transparent !important;
+  padding: 16px !important;
+}
+
+.metric-tile {
+  background: rgba(11, 27, 58, 0.75) !important;
+  border: 1px solid rgba(56, 189, 248, 0.2) !important;
+  border-radius: 14px !important;
+  padding: 16px !important;
+  color: #f8fafc !important;
+}
+
+.metric-label {
+  color: #7dd3fc !important;
+  font-weight: 700 !important;
+  font-size: 11.5px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+}
+
+.metric-value {
+  color: #ffffff !important;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+}
+
+.metric-icon {
+  color: #38bdf8 !important;
+}
+
+/* =========================================================
+   REKAP FARMASI - AKTIVITAS & MEDIS ONLINE SIDE GRID
+   Fixes bright white panels clashing with dark theme
+   ========================================================= */
+.activity-feed-card,
+.activity-feed-container {
+  background: rgba(8, 22, 48, 0.85) !important;
+  border: 1px solid rgba(56, 189, 248, 0.25) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35) !important;
+  color: #f8fafc !important;
+  overflow: hidden !important;
+}
+
+.activity-feed-header {
+  border-bottom: 1px solid rgba(56, 189, 248, 0.2) !important;
+  background: rgba(14, 165, 233, 0.12) !important;
+  color: #ffffff !important;
+  padding: 12px 16px !important;
+}
+
+.activity-feed-title {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.activity-feed-list {
+  background: transparent !important;
+}
+
+.activity-feed-item {
+  border-bottom: 1px solid rgba(56, 189, 248, 0.1) !important;
+  color: #f1f5f9 !important;
+  padding: 10px 14px !important;
+  transition: background 0.15s ease !important;
+}
+
+.activity-feed-item:hover {
+  background: rgba(14, 165, 233, 0.12) !important;
+}
+
+.card-online-medics {
+  background: rgba(8, 22, 48, 0.85) !important;
+  border: 1px solid rgba(56, 189, 248, 0.25) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35) !important;
+}
+
+.online-medic-row {
+  background: rgba(11, 27, 58, 0.7) !important;
+  border: 1px solid rgba(56, 189, 248, 0.2) !important;
+  border-radius: 14px !important;
+  color: #f8fafc !important;
+  padding: 12px 14px !important;
+  margin-bottom: 10px !important;
+}
+
+.online-medic-row:hover {
+  border-color: rgba(56, 189, 248, 0.45) !important;
+  background: rgba(11, 27, 58, 0.9) !important;
+}
+
+.online-medic-identity strong {
+  color: #ffffff !important;
+  font-size: 14px !important;
+}
+
+.online-medic-subtitle {
+  color: #7dd3fc !important;
+  font-size: 12px !important;
+}
+
+.online-medic-stats,
+.online-medic-metric {
+  background: rgba(6, 15, 34, 0.6) !important;
+  border: 1px solid rgba(56, 189, 248, 0.15) !important;
+  border-radius: 10px !important;
+  color: #f8fafc !important;
+}
+
+/* =========================================================
+   MANAGEMENT TOOLBAR CONTROLS (MANAJEMEN USER, ETC.)
+   ========================================================= */
+.card-toolbar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 12px !important;
+}
+
+.toolbar-group {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  flex-wrap: wrap !important;
+}
+
+.toolbar-select,
+select.toolbar-select {
+  background: rgba(11, 27, 58, 0.8) !important;
+  border: 1px solid rgba(56, 189, 248, 0.3) !important;
+  color: #ffffff !important;
+  border-radius: 10px !important;
+  padding: 8px 32px 8px 12px !important;
+  font-size: 13px !important;
+  min-height: 38px !important;
+}
+
+.toolbar-input,
+input.toolbar-input {
+  background: rgba(11, 27, 58, 0.8) !important;
+  border: 1px solid rgba(56, 189, 248, 0.3) !important;
+  color: #ffffff !important;
+  border-radius: 10px !important;
+  padding: 8px 14px !important;
+  font-size: 13px !important;
+  min-width: 200px !important;
+  min-height: 38px !important;
+}
+
+.toolbar-input:focus,
+.toolbar-select:focus {
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.3) !important;
+}
+

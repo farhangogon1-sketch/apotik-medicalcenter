@@ -254,7 +254,7 @@
   }
 
   .page {
-    @apply rounded-[28px] border border-white/50 bg-white/75 p-4 shadow-panel backdrop-blur;
+    @apply mx-auto w-full max-w-7xl bg-transparent border-0 shadow-none;
   }
 
   .gradient-text {
