@@ -7,20 +7,24 @@ $isTrainee = ($position === 'trainee');
 
 require_once __DIR__ . '/../assets/design/ui/icon.php';
 
-function isActive($page)
-{
-    global $currentPage;
-    return $currentPage === $page ? 'active' : '';
+if (!function_exists('isActive')) {
+    function isActive($page)
+    {
+        global $currentPage;
+        return $currentPage === $page ? 'active' : '';
+    }
 }
 
-function sidebarItem(string $href, string $page, string $label, string $icon): array
-{
-    return [
-        'href' => $href,
-        'page' => $page,
-        'label' => $label,
-        'icon' => $icon,
-    ];
+if (!function_exists('sidebarItem')) {
+    function sidebarItem(string $href, string $page, string $label, string $icon): array
+    {
+        return [
+            'href' => $href,
+            'page' => $page,
+            'label' => $label,
+            'icon' => $icon,
+        ];
+    }
 }
 
 // Cek hak akses fitur General Affair / Administrasi
