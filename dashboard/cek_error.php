@@ -24,7 +24,28 @@ try {
     if (isset($pdo)) {
         echo "<span class='ok'>✅ Koneksi Database Berhasil!</span><br>";
         $ver = $pdo->query("SELECT VERSION()")->fetchColumn();
-        echo "MySQL/MariaDB Version: " . htmlspecialchars($ver) . "<br>";
+        $currDb = $pdo->query("SELECT DATABASE()")->fetchColumn();
+        echo "Nama Database Aktif: <strong style='color:#38bdf8; font-size:1.1rem;'>" . htmlspecialchars($currDb) . "</strong><br>";
+        echo "MySQL/MariaDB Version: " . htmlspecialchars($ver) . "<br><br>";
+
+        // Tampilkan semua tabel yang ada di database ini
+        $allTables = $pdo->query("SHOW TABLES")->fetchAll(PDO::FETCH_COLUMN);
+        if (empty($allTables)) {
+            echo "<span class='err' style='font-size:1.1rem;'>⚠️ DATABASE INI KOSONG (0 TABEL)!</span><br>";
+            echo "Database <strong>" . htmlspecialchars($currDb) . "</strong> saat ini belum memiliki tabel sama sekali.<br>";
+        } else {
+            echo "<strong>Daftar tabel yang ditemukan di database " . htmlspecialchars($currDb) . " (" . count($allTables) . " tabel):</strong><br>";
+            echo "<pre>" . htmlspecialchars(implode(', ', $allTables)) . "</pre>";
+        }
+
+        // Tampilkan daftar database lain milik akun ini jika ada
+        try {
+            $allDbs = $pdo->query("SHOW DATABASES")->fetchAll(PDO::FETCH_COLUMN);
+            if (!empty($allDbs)) {
+                echo "<strong>Daftar database yang tersedia untuk user ini:</strong><br>";
+                echo "<pre>" . htmlspecialchars(implode(', ', $allDbs)) . "</pre>";
+            }
+        } catch (Throwable $e) {}
     } else {
         echo "<span class='err'>❌ Variabel \$pdo tidak ditemukan.</span><br>";
     }
