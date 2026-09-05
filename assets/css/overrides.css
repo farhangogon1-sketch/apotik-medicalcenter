@@ -1485,7 +1485,7 @@ small,
 
 /* =========================================================
    REKAP FARMASI - AKTIVITAS & MEDIS ONLINE SIDE GRID
-   Fixes bright white panels clashing with dark theme
+   High contrast text and unified dark glass panels
    ========================================================= */
 .activity-feed-card,
 .activity-feed-container {
@@ -1520,7 +1520,10 @@ small,
 .activity-feed-item {
   border-bottom: 1px solid rgba(56, 189, 248, 0.1) !important;
   color: #f1f5f9 !important;
-  padding: 10px 14px !important;
+  padding: 12px 14px !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 12px !important;
   transition: background 0.15s ease !important;
 }
 
@@ -1528,6 +1531,68 @@ small,
   background: rgba(14, 165, 233, 0.12) !important;
 }
 
+/* Activity Feed Text Fixes (No more invisible black/dark gray text) */
+.activity-medic {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 13.5px !important;
+  line-height: 1.4 !important;
+}
+
+.activity-description {
+  color: #bae6fd !important;
+  font-size: 12.5px !important;
+  line-height: 1.4 !important;
+  margin-top: 2px !important;
+}
+
+.activity-time {
+  color: #7dd3fc !important;
+  font-size: 11px !important;
+  margin-top: 4px !important;
+  opacity: 0.85 !important;
+}
+
+.activity-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
+  border-radius: 50% !important;
+  font-weight: 800 !important;
+  font-size: 11px !important;
+  letter-spacing: 0.03em !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+.activity-icon.type-transaction {
+  background: rgba(14, 165, 233, 0.25) !important;
+  color: #38bdf8 !important;
+  border: 1px solid rgba(56, 189, 248, 0.45) !important;
+}
+
+.activity-icon.type-online {
+  background: rgba(16, 185, 129, 0.25) !important;
+  color: #34d399 !important;
+  border: 1px solid rgba(52, 211, 153, 0.45) !important;
+}
+
+.activity-icon.type-offline {
+  background: rgba(148, 163, 184, 0.2) !important;
+  color: #94a3b8 !important;
+  border: 1px solid rgba(148, 163, 184, 0.35) !important;
+}
+
+.activity-icon.type-force_offline,
+.activity-icon.type-delete {
+  background: rgba(239, 68, 68, 0.25) !important;
+  color: #f87171 !important;
+  border: 1px solid rgba(248, 113, 113, 0.45) !important;
+}
+
+/* Medis Online Hari Ini - Card & Rows */
 .card-online-medics {
   background: rgba(8, 22, 48, 0.85) !important;
   border: 1px solid rgba(56, 189, 248, 0.25) !important;
@@ -1535,36 +1600,235 @@ small,
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35) !important;
 }
 
+.card-online-medics .card-header-between {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+}
+
+.card-online-medics .badge-counter {
+  background: rgba(14, 165, 233, 0.25) !important;
+  border: 1px solid rgba(56, 189, 248, 0.4) !important;
+  color: #38bdf8 !important;
+  font-weight: 700 !important;
+  font-size: 11px !important;
+  padding: 3px 10px !important;
+  border-radius: 999px !important;
+}
+
 .online-medic-row {
-  background: rgba(11, 27, 58, 0.7) !important;
+  background: rgba(11, 27, 58, 0.75) !important;
   border: 1px solid rgba(56, 189, 248, 0.2) !important;
   border-radius: 14px !important;
   color: #f8fafc !important;
-  padding: 12px 14px !important;
+  padding: 14px !important;
   margin-bottom: 10px !important;
 }
 
 .online-medic-row:hover {
   border-color: rgba(56, 189, 248, 0.45) !important;
-  background: rgba(11, 27, 58, 0.9) !important;
+  background: rgba(11, 27, 58, 0.95) !important;
 }
 
 .online-medic-identity strong {
   color: #ffffff !important;
   font-size: 14px !important;
+  font-weight: 700 !important;
 }
 
 .online-medic-subtitle {
-  color: #7dd3fc !important;
+  color: #38bdf8 !important;
   font-size: 12px !important;
+  font-weight: 600 !important;
 }
 
-.online-medic-stats,
-.online-medic-metric {
-  background: rgba(6, 15, 34, 0.6) !important;
-  border: 1px solid rgba(56, 189, 248, 0.15) !important;
-  border-radius: 10px !important;
+.online-medic-inline-meta {
+  color: #94a3b8 !important;
+  font-size: 11.5px !important;
+  margin-top: 4px !important;
+}
+
+.online-medic-inline-meta strong {
+  color: #f1f5f9 !important;
+  font-weight: 700 !important;
+}
+
+.online-medic-inline-meta span {
+  color: #bae6fd !important;
+}
+
+.weekly-badge-muted {
+  background: rgba(14, 165, 233, 0.15) !important;
+  border: 1px solid rgba(56, 189, 248, 0.3) !important;
+  color: #38bdf8 !important;
+  border-radius: 999px !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  padding: 2px 8px !important;
+}
+
+/* 4 Mini Stat Cards in Online Medis Row (No more white boxes!) */
+.online-medic-stats {
+  display: grid !important;
+  gap: 8px !important;
+}
+
+.online-medic-stat-card,
+.online-medic-stat-card-success {
+  background: rgba(6, 15, 34, 0.75) !important;
+  border: 1px solid rgba(56, 189, 248, 0.2) !important;
+  border-radius: 12px !important;
+  padding: 8px 12px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.online-medic-stat-card:hover,
+.online-medic-stat-card-success:hover {
+  border-color: rgba(56, 189, 248, 0.4) !important;
+  background: rgba(6, 15, 34, 0.9) !important;
+}
+
+.online-medic-stat-label {
+  color: #7dd3fc !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  line-height: 1.2 !important;
+}
+
+.online-medic-stat-card strong,
+.online-medic-stat-card-success strong {
+  color: #ffffff !important;
+  font-size: 13.5px !important;
+  font-weight: 800 !important;
+  margin-top: 3px !important;
+}
+
+/* =========================================================
+   RINGKASAN ITEM & KASIR TOTAL DISPLAY (REKAP FARMASI)
+   No more mismatched light mint boxes or dark unreadable text
+   ========================================================= */
+.total-item-info,
+.total-item-info.bg-white {
+  background: rgba(6, 15, 34, 0.7) !important;
+  border: 1px solid rgba(56, 189, 248, 0.22) !important;
+  border-radius: 16px !important;
+  padding: 16px !important;
   color: #f8fafc !important;
+  margin-top: 14px !important;
+}
+
+.total-item-info .grid > div {
+  background: rgba(11, 27, 58, 0.75) !important;
+  border: 1px solid rgba(56, 189, 248, 0.2) !important;
+  border-radius: 12px !important;
+  padding: 12px !important;
+}
+
+.total-item-info .meta-text-xs {
+  color: #7dd3fc !important;
+  font-size: 11.5px !important;
+}
+
+.total-item-info .font-semibold {
+  color: #ffffff !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+
+/* Mode Paket Aktif card inside Ringkasan Item */
+.total-item-info .border-emerald-200,
+.total-item-info .bg-emerald-50 {
+  background: rgba(16, 185, 129, 0.14) !important;
+  border: 1px solid rgba(52, 211, 153, 0.4) !important;
+}
+
+.total-item-info .text-emerald-700 {
+  color: #34d399 !important;
+}
+
+/* Kasir Total Display (Clean, Glowing Emerald Header) */
+.total-display,
+.total-display.border-emerald-200,
+.total-display.bg-emerald-50 {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(6, 44, 38, 0.5) 100%) !important;
+  border: 1px solid rgba(52, 211, 153, 0.4) !important;
+  border-radius: 16px !important;
+  padding: 16px 20px !important;
+  margin-top: 14px !important;
+  margin-bottom: 16px !important;
+}
+
+.total-display-label,
+.total-display .text-emerald-700 {
+  color: #6ee7b7 !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+}
+
+.total-amount,
+.total-display .total-amount {
+  color: #34d399 !important;
+  font-size: 32px !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.02em !important;
+  text-shadow: 0 0 20px rgba(16, 185, 129, 0.25) !important;
+}
+
+/* =========================================================
+   FORM LABELS & HELPER TEXT (GLOBAL HIGH CONTRAST)
+   ========================================================= */
+.col label,
+.form-group label,
+form label,
+label {
+  color: #bae6fd !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  margin-bottom: 6px !important;
+}
+
+.col small,
+.form-group small,
+form small,
+.meta-text-xs,
+.meta-text,
+.muted-copy-tight {
+  color: #94a3b8 !important;
+  font-size: 11.5px !important;
+  line-height: 1.4 !important;
+}
+
+/* Prevent any dark text classes from Tailwind from ruining contrast */
+.card .text-slate-900,
+.card .text-slate-800,
+.card .text-slate-700,
+.page .text-slate-900,
+.page .text-slate-800,
+.page .text-slate-700 {
+  color: #ffffff !important;
+}
+
+.card .text-slate-600,
+.card .text-slate-500,
+.page .text-slate-600,
+.page .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+.card .bg-slate-50,
+.card .bg-slate-100,
+.page .bg-slate-50,
+.page .bg-slate-100 {
+  background-color: rgba(11, 27, 58, 0.7) !important;
+  border-color: rgba(56, 189, 248, 0.2) !important;
 }
 
 /* =========================================================
@@ -1613,4 +1877,5 @@ input.toolbar-input {
   border-color: #38bdf8 !important;
   box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.3) !important;
 }
+
 

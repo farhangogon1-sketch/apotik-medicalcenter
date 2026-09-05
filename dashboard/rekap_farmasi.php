@@ -1676,46 +1676,46 @@ include __DIR__ . '/../partials/sidebar.php';
                         </div>
                     </div>
 
-                    <div class="total-item-info bg-white">
+                    <div class="total-item-info">
                         <div class="flex flex-wrap items-center justify-between gap-3">
                             <div>
-                                <div class="text-xs font-bold uppercase tracking-wide text-slate-500">Ringkasan Item</div>
-                                <div class="meta-text-xs">Jumlah item dan bonus akan berubah otomatis sesuai mode paket aktif.</div>
+                                <div class="text-xs font-bold uppercase tracking-wide text-sky-300">Ringkasan Item</div>
+                                <div class="meta-text-xs text-slate-300">Jumlah item dan bonus akan berubah otomatis sesuai mode paket aktif.</div>
                             </div>
                             <span class="badge-counter">Bonus 40%: <span id="totalBonus">0</span></span>
                         </div>
                         <div class="grid gap-2 mt-3 sm:grid-cols-2">
-                            <div class="rounded-xl border border-slate-200 bg-slate-50 px-3 py-3">
-                                <div class="meta-text-xs">Bandage</div>
-                                <div class="font-semibold text-slate-900"><span id="totalBandage">0</span> pcs</div>
-                                <div class="meta-text-xs">Harga satuan: <span id="priceBandage">-</span>/pcs</div>
+                            <div class="rounded-xl border border-sky-500/20 bg-slate-900/60 px-3 py-3">
+                                <div class="meta-text-xs text-sky-300">Bandage</div>
+                                <div class="font-semibold text-white"><span id="totalBandage">0</span> pcs</div>
+                                <div class="meta-text-xs text-slate-400">Harga satuan: <span id="priceBandage" class="text-sky-300">-</span>/pcs</div>
                             </div>
-                            <div class="rounded-xl border border-slate-200 bg-slate-50 px-3 py-3">
-                                <div class="meta-text-xs">IFAKS</div>
-                                <div class="font-semibold text-slate-900"><span id="totalIfaks">0</span> pcs</div>
-                                <div class="meta-text-xs">Harga satuan: <span id="priceIfaks">-</span>/pcs</div>
+                            <div class="rounded-xl border border-sky-500/20 bg-slate-900/60 px-3 py-3">
+                                <div class="meta-text-xs text-sky-300">IFAKS</div>
+                                <div class="font-semibold text-white"><span id="totalIfaks">0</span> pcs</div>
+                                <div class="meta-text-xs text-slate-400">Harga satuan: <span id="priceIfaks" class="text-sky-300">-</span>/pcs</div>
                             </div>
-                            <div class="rounded-xl border border-slate-200 bg-slate-50 px-3 py-3">
-                                <div class="meta-text-xs">Painkiller</div>
-                                <div class="font-semibold text-slate-900"><span id="totalPainkiller">0</span> pcs</div>
-                                <div class="meta-text-xs">Harga satuan: <span id="pricePainkiller">-</span>/pcs</div>
+                            <div class="rounded-xl border border-sky-500/20 bg-slate-900/60 px-3 py-3">
+                                <div class="meta-text-xs text-sky-300">Painkiller</div>
+                                <div class="font-semibold text-white"><span id="totalPainkiller">0</span> pcs</div>
+                                <div class="meta-text-xs text-slate-400">Harga satuan: <span id="pricePainkiller" class="text-sky-300">-</span>/pcs</div>
                             </div>
-                            <div class="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-3">
-                                <div class="meta-text-xs text-emerald-700">Mode Paket Aktif</div>
-                                <div class="font-semibold text-emerald-700" id="activePackageLabel">Paket A / B</div>
-                                <div class="meta-text-xs text-emerald-700">Pilih mode custom jika ingin atur item manual.</div>
+                            <div class="rounded-xl border border-emerald-500/30 bg-emerald-950/40 px-3 py-3">
+                                <div class="meta-text-xs text-emerald-400">Mode Paket Aktif</div>
+                                <div class="font-semibold text-emerald-300" id="activePackageLabel">Paket A / B</div>
+                                <div class="meta-text-xs text-emerald-400/80">Pilih mode custom jika ingin atur item manual.</div>
                             </div>
                         </div>
                     </div>
 
                     <!-- DISPLAY KASIR: Total Harga besar -->
-                    <div class="total-display border border-emerald-200 bg-emerald-50 text-emerald-700">
+                    <div class="total-display border border-emerald-500/40 bg-emerald-950/50">
                         <div class="flex flex-wrap items-end justify-between gap-3">
                             <div>
-                                <div class="total-display-label text-emerald-700">Total yang harus dibayar</div>
-                                <div class="meta-text-xs text-emerald-700">Nominal akhir transaksi yang siap dikonfirmasi.</div>
+                                <div class="total-display-label text-emerald-300">Total yang harus dibayar</div>
+                                <div class="meta-text-xs text-emerald-400/80">Nominal akhir transaksi yang siap dikonfirmasi.</div>
                             </div>
-                            <div class="total-amount mt-0 text-emerald-700" id="totalPriceDisplay">$ 0</div>
+                            <div class="total-amount mt-0 text-emerald-300" id="totalPriceDisplay">$ 0</div>
                         </div>
                     </div>
 
@@ -1752,15 +1752,15 @@ include __DIR__ . '/../partials/sidebar.php';
                 <div class="card card-online-medics">
                     <div class="card-header-between">
                         <div class="flex min-w-0 flex-wrap items-center gap-2">
-                            <?= ems_icon('user-group', 'h-5 w-5 text-primary') ?>
-                            <span class="font-semibold text-text">Medis Online Hari Ini</span>
+                            <?= ems_icon('user-group', 'h-5 w-5 text-sky-400') ?>
+                            <span class="font-semibold text-white">Medis Online Hari Ini</span>
                             <span id="totalMedicsBadge" class="badge-counter">0 orang</span>
                         </div>
-                        <small class="card-subnote hidden md:block">
+                        <small class="card-subnote text-sky-300/80 hidden md:block">
                             (prioritas penjualan paling sedikit di sortir paling atas)
                         </small>
                     </div>
-                    <div class="meta-text-xs md:hidden">
+                    <div class="meta-text-xs text-sky-300/80 md:hidden">
                         (prioritas penjualan paling sedikit di sortir paling atas)
                     </div>
 
@@ -1768,34 +1768,34 @@ include __DIR__ . '/../partials/sidebar.php';
 
                         <?php if (empty($onlineMedics)): ?>
 
-                            <p class="meta-text">
+                            <p class="meta-text text-slate-400 p-3">
                                 Tidak ada medis yang sedang online.
                             </p>
 
                         <?php else: ?>
 
                             <?php foreach ($onlineMedics as $m): ?>
-                                <div class="online-medic-row">
+                                <div class="online-medic-row border border-sky-500/20 bg-slate-900/70">
                                     <div class="online-medic-main">
                                         <div class="online-medic-head">
                                             <div class="online-medic-identity">
-                                                <strong><?= htmlspecialchars($m['medic_name']) ?></strong>
-                                                <div class="online-medic-subtitle">
+                                                <strong class="text-white font-bold"><?= htmlspecialchars($m['medic_name']) ?></strong>
+                                                <div class="online-medic-subtitle text-sky-300">
                                                     <?= htmlspecialchars($m['medic_position_label']) ?> •
                                                     <?= htmlspecialchars($m['medic_role_label']) ?> •
                                                     <?= htmlspecialchars($m['medic_division_label']) ?>
                                                 </div>
                                             </div>
                                             <div class="online-medic-badges">
-                                                <span class="weekly-badge">Minggu ini: <?= (int)$m['weekly_transaksi'] ?> trx</span>
-                                                <span class="weekly-badge weekly-badge-muted">Batch <?= !empty($m['medic_batch']) ? (int)$m['medic_batch'] : '-' ?></span>
+                                                <span class="weekly-badge bg-sky-950/80 text-sky-300 border border-sky-500/30">Minggu ini: <?= (int)$m['weekly_transaksi'] ?> trx</span>
+                                                <span class="weekly-badge weekly-badge-muted bg-slate-800 text-slate-300 border border-slate-700">Batch <?= !empty($m['medic_batch']) ? (int)$m['medic_batch'] : '-' ?></span>
                                             </div>
                                         </div>
 
-                                        <div class="online-medic-inline-meta">
-                                            <span><strong>Join:</strong> <?= htmlspecialchars($m['join_duration_text']) ?></span>
-                                            <span><strong>Online:</strong>
-                                                <strong class="weekly-online"
+                                        <div class="online-medic-inline-meta text-slate-300">
+                                            <span><strong class="text-sky-200">Join:</strong> <?= htmlspecialchars($m['join_duration_text']) ?></span>
+                                            <span><strong class="text-sky-200">Online:</strong>
+                                                <strong class="weekly-online text-white"
                                                     data-seconds="<?= (int)($m['weekly_online_seconds'] ?? 0) ?>"
                                                     data-user-id="<?= (int)$m['user_id'] ?>">
                                                     <?= htmlspecialchars($m['weekly_online_text'] ?? '0j 0m') ?>
@@ -1814,21 +1814,21 @@ include __DIR__ . '/../partials/sidebar.php';
                                     </div>
 
                                     <div class="online-medic-stats">
-                                        <div class="online-medic-stat-card">
-                                            <span class="online-medic-stat-label">Transaksi Hari Ini</span>
-                                            <strong class="tx"><?= (int)$m['total_transaksi'] ?> trx</strong>
+                                        <div class="online-medic-stat-card border border-sky-500/20 bg-slate-950/70">
+                                            <span class="online-medic-stat-label text-sky-300">Transaksi Hari Ini</span>
+                                            <strong class="tx text-white font-bold"><?= (int)$m['total_transaksi'] ?> trx</strong>
                                         </div>
-                                        <div class="online-medic-stat-card">
-                                            <span class="online-medic-stat-label">Total Seluruh Transaksi</span>
-                                            <strong><?= (int)($m['total_transaksi_semua'] ?? 0) ?> trx</strong>
+                                        <div class="online-medic-stat-card border border-sky-500/20 bg-slate-950/70">
+                                            <span class="online-medic-stat-label text-sky-300">Total Seluruh Transaksi</span>
+                                            <strong class="text-white font-bold"><?= (int)($m['total_transaksi_semua'] ?? 0) ?> trx</strong>
                                         </div>
-                                        <div class="online-medic-stat-card">
-                                            <span class="online-medic-stat-label">Pendapatan Hari Ini</span>
-                                            <strong class="amount"><?= dollar((int)$m['total_pendapatan']) ?></strong>
+                                        <div class="online-medic-stat-card border border-sky-500/20 bg-slate-950/70">
+                                            <span class="online-medic-stat-label text-sky-300">Pendapatan Hari Ini</span>
+                                            <strong class="amount text-white font-bold"><?= dollar((int)$m['total_pendapatan']) ?></strong>
                                         </div>
-                                        <div class="online-medic-stat-card online-medic-stat-card-success">
-                                            <span class="online-medic-stat-label">Bonus Hari Ini</span>
-                                            <strong class="bonus text-success-xs"><?= dollar((int)$m['bonus_40']) ?></strong>
+                                        <div class="online-medic-stat-card online-medic-stat-card-success border border-emerald-500/30 bg-emerald-950/40">
+                                            <span class="online-medic-stat-label text-emerald-300">Bonus Hari Ini</span>
+                                            <strong class="bonus text-emerald-400 font-bold"><?= dollar((int)$m['bonus_40']) ?></strong>
                                         </div>
                                     </div>
                                 </div>
@@ -3855,9 +3855,9 @@ include __DIR__ . '/../partials/sidebar.php';
                 ${ACTIVITY_ICONS[data.type] || 'LOG'}
             </div>
             <div class="activity-content">
-                <div class="activity-medic">${escapeHtml(data.medic_name)}</div>
-                <div class="activity-description">${escapeHtml(data.description)}</div>
-                <div class="activity-time" data-timestamp="${data.timestamp}">
+                <div class="activity-medic text-white font-bold" style="color: #ffffff !important; font-weight: 700 !important; font-size: 13.5px !important;">${escapeHtml(data.medic_name)}</div>
+                <div class="activity-description text-sky-200" style="color: #bae6fd !important; font-size: 12.5px !important; margin-top: 2px !important;">${escapeHtml(data.description)}</div>
+                <div class="activity-time text-sky-400" data-timestamp="${data.timestamp}" style="color: #7dd3fc !important; font-size: 11px !important; margin-top: 4px !important;">
                     ${getRelativeTime(data.timestamp)}
                 </div>
             </div>
