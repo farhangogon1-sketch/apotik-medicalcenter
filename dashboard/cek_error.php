@@ -35,7 +35,15 @@ try {
             echo "Database <strong>" . htmlspecialchars($currDb) . "</strong> saat ini belum memiliki tabel sama sekali.<br>";
         } else {
             echo "<strong>Daftar tabel yang ditemukan di database " . htmlspecialchars($currDb) . " (" . count($allTables) . " tabel):</strong><br>";
-            echo "<pre>" . htmlspecialchars(implode(', ', $allTables)) . "</pre>";
+            echo "<div style='display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin: 10px 0; background: #020617; padding: 12px; border-radius: 6px;'>";
+            foreach ($allTables as $tbl) {
+                $count = 0;
+                try {
+                    $count = (int)$pdo->query("SELECT COUNT(*) FROM `$tbl`")->fetchColumn();
+                } catch (Throwable $e) {}
+                echo "<div><strong style='color:#38bdf8;'>• " . htmlspecialchars($tbl) . "</strong> <small style='color:#94a3b8;'>(" . $count . " baris)</small></div>";
+            }
+            echo "</div>";
         }
 
         // Tampilkan daftar database lain milik akun ini jika ada
@@ -67,13 +75,16 @@ echo "</div>";
 // 4. Test Query-query Utama Rekap Farmasi
 echo "<div class='box'><h3>4. Uji Query Rekap Farmasi & Database</h3>";
 if (isset($pdo)) {
-    // Cek kolom user_rh
-    try {
-        $cols = $pdo->query("SHOW COLUMNS FROM user_rh")->fetchAll(PDO::FETCH_COLUMN);
-        echo "<span class='ok'>✅ Tabel user_rh ditemukan!</span> Kolom: <small>" . implode(', ', $cols) . "</small><br><br>";
-    } catch (Throwable $e) {
-        echo "<span class='err'>❌ Error cek tabel user_rh: " . htmlspecialchars($e->getMessage()) . "</span><br>";
+    // Cek tabel user_rh atau users
+    $userCandidates = array_filter($allTables ?? [], fn($t) => str_contains($t, 'user'));
+    echo "<strong>Tabel bertema 'user':</strong> " . (empty($userCandidates) ? '<span class=\"err\">Tidak ada</span>' : implode(', ', $userCandidates)) . "<br>";
+    foreach ($userCandidates as $ut) {
+        try {
+            $cols = $pdo->query("SHOW COLUMNS FROM `$ut`")->fetchAll(PDO::FETCH_COLUMN);
+            echo "• Kolom <strong>$ut</strong>: <small>" . implode(', ', $cols) . "</small><br>";
+        } catch (Throwable $e) {}
     }
+    echo "<br>";
 
     // Cek tabel packages
     try {
@@ -91,12 +102,15 @@ if (isset($pdo)) {
         echo "<span class='err'>❌ Error cek tabel sales: " . htmlspecialchars($e->getMessage()) . "</span><br>";
     }
 
-    // Cek tabel blacklist_nama
-    try {
-        $bl = $pdo->query("SELECT id, nama FROM blacklist_nama LIMIT 3")->fetchAll(PDO::FETCH_ASSOC);
-        echo "<span class='ok'>✅ Tabel blacklist_nama ditemukan!</span><br>";
-    } catch (Throwable $e) {
-        echo "<span class='err'>⚠️ Tabel blacklist_nama belum ada / error: " . htmlspecialchars($e->getMessage()) . "</span><br>";
+    // Cek tabel consumer_blacklist atau blacklist_nama
+    if (in_array('consumer_blacklist', $allTables ?? [])) {
+        echo "<span class='ok'>✅ Tabel consumer_blacklist ADA di database!</span><br>";
+        try {
+            $blCols = $pdo->query("SHOW COLUMNS FROM consumer_blacklist")->fetchAll(PDO::FETCH_COLUMN);
+            echo "• Kolom consumer_blacklist: <small>" . implode(', ', $blCols) . "</small><br>";
+        } catch (Throwable $e) {}
+    } else {
+        echo "<span class='err'>Tabel consumer_blacklist tidak ditemukan.</span><br>";
     }
 }
 echo "</div>";
