@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 date_default_timezone_set('Asia/Jakarta');
 session_start();
 
@@ -10,7 +10,8 @@ require_once __DIR__ . '/../config/helpers.php';
    ROLE GUARD (NON-STAFF)
    =============================== */
 $userRole = strtolower($_SESSION['user_rh']['role'] ?? '');
-if ($userRole === 'staff') {
+$userDiv  = ems_normalize_division($_SESSION['user_rh']['division'] ?? '');
+if (ems_is_staff_role($userRole) && !ems_can_access_division_menu($userDiv, 'General Affair')) {
     http_response_code(403);
     die('Akses ditolak');
 }

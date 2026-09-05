@@ -261,7 +261,7 @@ function ems_normalize_division(?string $division): string
         'human capital', 'devisi human capital', 'divisi human capital', 'division human capital' => 'Human Capital',
         'human resource', 'devisi human resource', 'divisi human resource', 'division human resource' => 'Human Resource',
         'disciplinary committee', 'discipline committee', 'disiplin committee', 'disiplin committe', 'deivisi disiplin committe', 'devisi disiplin committe', 'divisi disiplin committe', 'division disciplinary committee' => 'Disciplinary Committee',
-        'general affair', 'devisi general affair', 'divisi general affair', 'division general affair' => 'General Affair',
+        'general affair', 'devisi general affair', 'divisi general affair', 'division general affair', 'administrasi', 'admin', 'devisi administrasi', 'divisi administrasi', 'division administrasi' => 'General Affair',
         'specialist medical authority', 'devisi specialist medical authority', 'divisi specialist medical authority', 'division specialist medical authority' => 'Specialist Medical Authority',
         'forensic', 'forensik', 'devisi forensic', 'divisi forensic', 'division forensic' => 'Forensic',
         default => $division !== null ? trim($division) : '',
@@ -355,6 +355,11 @@ function ems_division_allowed_dashboard_pages(?string $division): ?array
         'pengajuan_cuti_resign_action.php',
         'setting_akun.php',
         'setting_akun_action.php',
+        'regulasi.php',
+        'validasi.php',
+        'blacklist_nama.php',
+        'manage_users.php',
+        'manage_users_action.php',
     ];
 }
 

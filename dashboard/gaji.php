@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 date_default_timezone_set('Asia/jakarta');
 session_start();
 
@@ -16,7 +16,20 @@ require_once __DIR__ . '/../assets/design/ui/icon.php';
 ems_require_not_trainee_html('Gaji');
 
 $userRole = strtolower(trim($_SESSION['user_rh']['role'] ?? ''));
-$isStaff = ($userRole === 'staff');
+$division = ems_normalize_division($_SESSION['user_rh']['division'] ?? '');
+$isStaff  = ($userRole === 'staff');
+
+$canAccessGA = ems_can_access_division_menu($division, 'General Affair')
+    || in_array(strtolower($division), ['general affair', 'administrasi', 'admin', 'executive', 'human resource', 'human capital'])
+    || in_array(strtolower($_SESSION['user_rh']['position'] ?? ''), ['administrasi', 'admin', 'general affair'])
+    || !$isStaff;
+
+if (!$canAccessGA) {
+    $_SESSION['flash_errors'][] = 'Akses ditolak. Halaman gaji hanya untuk manajemen / General Affair.';
+    header('Location: /dashboard/index.php');
+    exit;
+}
+
 $userName = $_SESSION['user_rh']['name'] ?? '';
 
 $pageTitle = 'Gaji Mingguan';

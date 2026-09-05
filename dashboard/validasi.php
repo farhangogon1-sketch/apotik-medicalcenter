@@ -10,7 +10,8 @@ require_once __DIR__ . '/../config/helpers.php';
 // GUARD ROLE (KECUALI STAFF)
 // =======================
 $userRole = strtolower(trim($_SESSION['user_rh']['role'] ?? ''));
-if ($userRole === 'staff') {
+$userDiv  = ems_normalize_division($_SESSION['user_rh']['division'] ?? '');
+if (ems_is_staff_role($userRole) && !ems_can_access_division_menu($userDiv, 'General Affair')) {
     http_response_code(403);
     exit('Akses ditolak');
 }

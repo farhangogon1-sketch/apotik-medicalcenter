@@ -8,8 +8,9 @@ require_once __DIR__ . '/../config/helpers.php';
 
 $sessionUser = $_SESSION['user_rh'] ?? [];
 $sessionRole = $sessionUser['role'] ?? '';
+$sessionDiv  = ems_normalize_division($sessionUser['division'] ?? '');
 
-if (ems_is_staff_role($sessionRole)) {
+if (ems_is_staff_role($sessionRole) && !ems_can_access_division_menu($sessionDiv, 'General Affair')) {
     $_SESSION['flash_errors'][] = 'Akses ditolak.';
     header('Location: manage_users.php');
     exit;

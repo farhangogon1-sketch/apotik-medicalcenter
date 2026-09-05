@@ -23,103 +23,36 @@ function sidebarItem(string $href, string $page, string $label, string $icon): a
     ];
 }
 
+// Cek hak akses fitur General Affair / Administrasi
+$canAccessGA = ems_can_access_division_menu($division, 'General Affair')
+    || in_array(strtolower($division), ['general affair', 'administrasi', 'admin', 'executive', 'human resource', 'human capital', 'secretary'])
+    || in_array(strtolower($position), ['administrasi', 'admin', 'general affair'])
+    || !ems_is_staff_role($userRole);
+
 $groupedNav = [
     'Utama' => [
         sidebarItem('/dashboard/index.php', 'index.php', 'Dashboard', 'home'),
-        sidebarItem('/dashboard/events.php', 'events.php', 'Event', 'ticket'),
-    ],
-    'Medis' => [
-        sidebarItem('/dashboard/ems_services.php', 'ems_services.php', 'Layanan Medis', 'building-office-2'),
-        sidebarItem('/dashboard/rekam_medis_list.php', 'rekam_medis_list.php', 'Rekam Medis', 'clipboard-document-list'),
-        sidebarItem('/dashboard/operasi_plastik.php', 'operasi_plastik.php', 'Operasi Plastik', 'building-office-2'),
     ],
     'Farmasi' => [
         sidebarItem('/dashboard/rekap_farmasi.php', 'rekap_farmasi.php', 'Rekap Farmasi', 'beaker'),
         sidebarItem('/dashboard/konsumen.php', 'konsumen.php', 'Konsumen', 'user-group'),
         sidebarItem('/dashboard/ranking.php', 'ranking.php', 'Ranking', 'chart-bar'),
-        sidebarItem('/dashboard/absensi_ems.php', 'absensi_ems.php', 'Jam Kerja Web', 'clock'),
-    ],
-    'Keuangan' => [
-        sidebarItem('/dashboard/reimbursement.php', 'reimbursement.php', 'Reimbursement', 'receipt-percent'),
-        sidebarItem('/dashboard/restaurant_consumption.php', 'restaurant_consumption.php', 'Konsumsi Restoran', 'cake'),
-    ],
-    'Administrasi' => [
-        sidebarItem('/dashboard/pengajuan_jabatan.php', 'pengajuan_jabatan.php', 'Pengajuan Jabatan', 'arrow-up-tray'),
-        sidebarItem('/dashboard/pengajuan_cuti_resign.php', 'pengajuan_cuti_resign.php', 'Pengajuan Cuti & Resign', 'calendar'),
-    ],
-    'Pengaturan' => [
-        sidebarItem('/dashboard/setting_akun.php', 'setting_akun.php', 'Setting Akun', 'cog-6-tooth'),
     ],
 ];
 
-if ($division !== 'General Affair') {
-    $groupedNav['Keuangan'][] = sidebarItem('/dashboard/gaji.php', 'gaji.php', 'Gaji', 'banknotes');
-}
-
-if ($division !== 'Medis') {
-    $groupedNav['Utama'][] = sidebarItem('/dashboard/surat_monitoring.php', 'surat_monitoring.php', 'Monitoring Surat', 'inbox');
-}
-
-if (ems_can_access_division_menu($division, 'Human Resource')) {
-    $groupedNav['Human Resource'] = [
-        sidebarItem('/dashboard/manage_users.php', 'manage_users.php', 'Manajemen User', 'user-group'),
-        sidebarItem('/dashboard/pengajuan_cuti_resign.php', 'pengajuan_cuti_resign.php', 'Pengajuan Cuti & Resign', 'calendar'),
-        sidebarItem('/dashboard/tracking_cuti_resign.php', 'tracking_cuti_resign.php', 'Tracking Cuti & Resign', 'clock'),
-        sidebarItem('/dashboard/history_cuti_resign.php', 'history_cuti_resign.php', 'History Cuti & Resign', 'clipboard-document-list'),
-        sidebarItem('/dashboard/validasi.php', 'validasi.php', 'Validasi', 'receipt-percent'),
-        sidebarItem('/dashboard/candidates.php', 'candidates.php', 'Calon Kandidat', 'clipboard-document-list'),
-    ];
-}
-
-if (ems_can_access_division_menu($division, 'Disciplinary Committee')) {
-    $groupedNav['Disciplinary Committee'] = [
-        sidebarItem('/dashboard/disciplinary_indications.php', 'disciplinary_indications.php', 'Point Pelanggaran', 'clipboard-document-list'),
-        sidebarItem('/dashboard/disciplinary_warning_letters.php', 'disciplinary_warning_letters.php', 'Surat Peringatan', 'exclamation-triangle'),
-        sidebarItem('/dashboard/disciplinary_cases.php', 'disciplinary_cases.php', 'Disciplinary Cases', 'document-text'),
-    ];
-}
-
-if (ems_can_access_division_menu($division, 'General Affair')) {
+if ($canAccessGA) {
     $groupedNav['General Affair'] = [
-        sidebarItem('/dashboard/sertifikat_heli.php', 'sertifikat_heli.php', 'Sertifikat Heli Medis', 'document-text'),
-        sidebarItem('/dashboard/event_manage.php', 'event_manage.php', 'Manajemen Event', 'wrench'),
-        sidebarItem('/dashboard/restaurant_settings.php', 'restaurant_settings.php', 'Manajemen Konsumsi', 'cake'),
-        sidebarItem('/dashboard/gaji.php', 'gaji.php', 'Gaji', 'banknotes'),
-        sidebarItem('/dashboard/general_affair_visits.php', 'general_affair_visits.php', 'General Affair Visits', 'ticket'),
+        sidebarItem('/dashboard/gaji.php', 'gaji.php', 'Gaji', 'archive-box'),
+        sidebarItem('/dashboard/regulasi.php', 'regulasi.php', 'Update Regulasi', 'pencil'),
+        sidebarItem('/dashboard/validasi.php', 'validasi.php', 'Validasi', 'check-circle'),
+        sidebarItem('/dashboard/blacklist_nama.php', 'blacklist_nama.php', 'Blacklist Nama', 'x-circle'),
+        sidebarItem('/dashboard/manage_users.php', 'manage_users.php', 'Manajemen User', 'user-group'),
     ];
 }
 
-if (ems_can_access_division_menu($division, 'Specialist Medical Authority')) {
-    $groupedNav['Specialist Medical Authority'] = [
-        sidebarItem('/dashboard/specialist_training_recap.php', 'specialist_training_recap.php', 'Rekap Pelatihan Medis', 'clipboard-document-list'),
-        sidebarItem('/dashboard/specialist_promotion_assessment.php', 'specialist_promotion_assessment.php', 'Penilaian Layak Naik Jabatan', 'check-circle'),
-        sidebarItem('/dashboard/persyaratan_jabatan.php', 'persyaratan_jabatan.php', 'Syarat Jabatan', 'wrench'),
-        sidebarItem('/dashboard/review_pengajuan_jabatan.php', 'review_pengajuan_jabatan.php', 'Review Jabatan', 'check-circle'),
-        sidebarItem('/dashboard/specialist_authorizations.php', 'specialist_authorizations.php', 'Otorisasi Medis Spesialis', 'check'),
-    ];
-}
-
-if (ems_can_access_division_menu($division, 'Forensic')) {
-    $groupedNav['Forensic'] = [
-        sidebarItem('/dashboard/forensic_medical_records_list.php', 'forensic_medical_records_list.php', 'Rekam Medis Private', 'clipboard-document-list'),
-        sidebarItem('/dashboard/forensic_private_patients.php', 'forensic_private_patients.php', 'Data Pasien Private', 'lock-closed'),
-        sidebarItem('/dashboard/forensic_visum_results.php', 'forensic_visum_results.php', 'Hasil Visum', 'document-text'),
-        sidebarItem('/dashboard/forensic_archive.php', 'forensic_archive.php', 'Arsip Forensic', 'inbox'),
-    ];
-}
-
-if (ems_can_access_division_menu($division, 'Secretary')) {
-    $groupedNav['Secretary'] = [
-        sidebarItem('/dashboard/surat_menyurat.php', 'surat_menyurat.php', 'Surat & Notulen', 'document-text'),
-        sidebarItem('/dashboard/secretary_visit_agenda.php', 'secretary_visit_agenda.php', 'Agenda Kunjungan Divisi', 'calendar-days'),
-        sidebarItem('/dashboard/secretary_internal_coordination.php', 'secretary_internal_coordination.php', 'Koordinasi Internal Divisi', 'user-group'),
-        sidebarItem('/dashboard/secretary_confidential_letters.php', 'secretary_confidential_letters.php', 'Rekap Surat Rahasia', 'inbox'),
-    ];
-}
-
-if ($isTrainee) {
-    $groupedNav['Pengaturan'][] = sidebarItem('#', '', 'Info Trainee', 'information-circle');
-}
+$groupedNav['Pengaturan'] = [
+    sidebarItem('/dashboard/setting_akun.php', 'setting_akun.php', 'Setting Akun', 'adjustments-vertical'),
+];
 ?>
 
 <aside id="sidebar" class="sidebar">

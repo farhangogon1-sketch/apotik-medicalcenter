@@ -10,9 +10,10 @@ require_once __DIR__ . '/../assets/design/ui/icon.php';
 
 $user = $_SESSION['user_rh'] ?? [];
 $role = $user['role'] ?? '';
+$userDivision = ems_normalize_division($user['division'] ?? '');
 
-// HARD GUARD: staff dilarang
-if (ems_is_staff_role($role)) {
+// HARD GUARD: staff dilarang kecuali memiliki akses General Affair / Administrasi
+if (ems_is_staff_role($role) && !ems_can_access_division_menu($userDivision, 'General Affair')) {
     header('Location: setting_akun.php');
     exit;
 }
