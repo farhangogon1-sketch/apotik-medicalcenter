@@ -1843,12 +1843,12 @@ include __DIR__ . '/../partials/sidebar.php';
 
             <!-- TOTAL TRANSAKSI HARI INI -->
             <div class="card">
-                <h3 class="section-title-compact">
-                    <?= ems_icon('chart-bar', 'h-5 w-5 text-primary') ?> Total Transaksi Hari Ini
+                <h3 class="section-title-compact text-white font-bold text-base flex items-center gap-2" style="color: #ffffff !important;">
+                    <?= ems_icon('chart-bar', 'h-5 w-5 text-sky-400') ?> Total Transaksi Hari Ini
                 </h3>
 
-                <p class="muted-copy-tight">
-                    Rekap otomatis <strong>khusus hari ini</strong> (reset setiap pergantian tanggal).
+                <p class="muted-copy-tight text-slate-300">
+                    Rekap otomatis <strong class="text-sky-200">khusus hari ini</strong> (reset setiap pergantian tanggal).
                 </p>
 
                 <?php if ($todayStats && $todayStats['total_transaksi'] > 0): ?>
@@ -1871,7 +1871,7 @@ include __DIR__ . '/../partials/sidebar.php';
                         </table>
                     </div>
                 <?php else: ?>
-                    <p class="empty-copy">
+                    <p class="empty-copy text-sky-200 font-semibold py-4 text-center">
                         Belum ada transaksi hari ini.
                     </p>
                 <?php endif; ?>
@@ -1879,13 +1879,15 @@ include __DIR__ . '/../partials/sidebar.php';
 
             <!-- Card Filter & Transaksi -->
             <div class="card">
-                <div class="card-header">Filter Tanggal & Transaksi</div>
+                <div class="card-header text-white font-bold text-base flex items-center gap-2" style="color: #ffffff !important;">
+                    <?= ems_icon('funnel', 'h-5 w-5 text-sky-400') ?> Filter Tanggal & Transaksi
+                </div>
 
                 <!-- Form Filter (GET) -->
                 <form method="get" class="mb-2.5">
                     <div class="row-form-2">
                         <div class="col">
-                            <label>Rentang Tanggal</label>
+                            <label class="text-sky-200 font-bold">Rentang Tanggal</label>
                             <select name="range" id="rangeSelect">
                                 <option value="today" <?= $range === 'today' ? 'selected' : '' ?>>Hari ini</option>
                                 <option value="yesterday" <?= $range === 'yesterday' ? 'selected' : '' ?>>Kemarin</option>
@@ -1914,11 +1916,11 @@ include __DIR__ . '/../partials/sidebar.php';
                     </div>
                     <div class="row-form-2 hidden" id="customDateRow">
                         <div class="col">
-                            <label>Dari tanggal</label>
+                            <label class="text-sky-200 font-bold">Dari tanggal</label>
                             <input type="date" name="from" value="<?= htmlspecialchars($fromDateInput) ?>">
                         </div>
                         <div class="col">
-                            <label>Sampai tanggal</label>
+                            <label class="text-sky-200 font-bold">Sampai tanggal</label>
                             <input type="date" name="to" value="<?= htmlspecialchars($toDateInput) ?>">
                         </div>
                     </div>
@@ -1933,16 +1935,18 @@ include __DIR__ . '/../partials/sidebar.php';
                     </div>
                 </form>
 
-                <p class="muted-copy-tight">
-                    Rentang aktif: <strong><?= htmlspecialchars($rangeLabel) ?></strong>
+                <p class="muted-copy-tight text-slate-300">
+                    Rentang aktif: <strong class="text-sky-200"><?= htmlspecialchars($rangeLabel) ?></strong>
                 </p>
             </div>
 
             <!-- Rekapan Bonus Medis (berdasarkan filter tanggal) -->
             <div class="card">
-                <h3 class="section-title-compact">Rekapan Bonus Medis (berdasarkan filter tanggal)</h3>
-                <p class="muted-copy-tight">
-                    Ditampilkan berdasarkan <strong>petugas medis yang sedang aktif</strong> pada rentang tanggal aktif.
+                <h3 class="section-title-compact text-white font-bold text-base flex items-center gap-2" style="color: #ffffff !important;">
+                    <?= ems_icon('banknotes', 'h-5 w-5 text-sky-400') ?> Rekapan Bonus Medis (berdasarkan filter tanggal)
+                </h3>
+                <p class="muted-copy-tight text-slate-300">
+                    Ditampilkan berdasarkan <strong class="text-sky-200">petugas medis yang sedang aktif</strong> pada rentang tanggal aktif.
                 </p>
 
                 <?php if ($singleMedicStats): ?>
@@ -1973,7 +1977,7 @@ include __DIR__ . '/../partials/sidebar.php';
                         </table>
                     </div>
                 <?php else: ?>
-                    <p class="empty-copy mb-3">
+                    <p class="empty-copy mb-3 text-sky-200 font-semibold py-4 text-center">
                         Belum ada data untuk petugas medis aktif pada rentang tanggal yang dipilih.
                     </p>
                 <?php endif; ?>
@@ -1983,7 +1987,9 @@ include __DIR__ . '/../partials/sidebar.php';
             <div class="card">
                 <div class="switcher-bar">
                     <div>
-                        <h3 class="section-title-tight">Transaksi (sesuai filter)</h3>
+                        <h3 class="section-title-tight text-white font-bold text-base flex items-center gap-2" style="color: #ffffff !important;">
+                            <?= ems_icon('document-text', 'h-5 w-5 text-sky-400') ?> Transaksi (sesuai filter)
+                        </h3>
                         <div class="switcher-caption">
                             <?php if ($showAll): ?>
                                 Mode: <strong>Semua medis</strong>

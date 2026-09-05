@@ -239,20 +239,20 @@ section.content {
 }
 
 /* =========================================================
-   CARDS & GLASSMORPHISM SURFACES (DEEP NAVY SLATE GLASS)
+   CARDS & GLASSMORPHISM SURFACES (BRIGHT TRANSLUCENT BLUE / CYAN GLASS)
    ========================================================= */
 .card,
 .public-panel,
 .stat-card,
 .request-card,
 .request-approval-card {
-  background: rgba(8, 22, 48, 0.82) !important;
+  background: linear-gradient(135deg, rgba(7, 89, 133, 0.85) 0%, rgba(14, 116, 178, 0.78) 100%) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
-  border: 1px solid rgba(56, 189, 248, 0.25) !important;
+  border: 1px solid rgba(56, 189, 248, 0.45) !important;
   border-radius: 18px !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35) !important;
-  color: #f8fafc !important;
+  box-shadow: 0 10px 30px rgba(3, 105, 161, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+  color: #ffffff !important;
   padding: 20px !important;
   margin-bottom: 20px !important;
 }
@@ -261,15 +261,15 @@ section.content {
 .request-card-title,
 .card-header-actions-title {
   color: #ffffff !important;
-  border-bottom: 1px solid rgba(56, 189, 248, 0.2) !important;
-  font-weight: 700 !important;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.35) !important;
+  font-weight: 800 !important;
   font-size: 15px !important;
   padding-bottom: 12px !important;
   margin-bottom: 16px !important;
 }
 
 .card-muted {
-  background: rgba(11, 27, 58, 0.7) !important;
+  background: rgba(12, 74, 110, 0.75) !important;
 }
 
 /* Dashboard Statistics Cards Grid */
@@ -281,12 +281,12 @@ section.content {
 }
 
 .dashboard-grid .card {
-  background: rgba(8, 22, 48, 0.78) !important;
-  border: 1px solid rgba(56, 189, 248, 0.22) !important;
+  background: linear-gradient(135deg, rgba(14, 116, 178, 0.78) 0%, rgba(3, 105, 161, 0.85) 100%) !important;
+  border: 1px solid rgba(56, 189, 248, 0.45) !important;
   border-radius: 14px !important;
   padding: 14px 16px !important;
   margin-bottom: 0 !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
@@ -295,8 +295,8 @@ section.content {
 
 .dashboard-grid .card:hover {
   transform: translateY(-2px) !important;
-  border-color: rgba(56, 189, 248, 0.55) !important;
-  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.25) !important;
+  border-color: rgba(56, 189, 248, 0.75) !important;
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.4) !important;
 }
 
 .dashboard-grid .card .card-header {
@@ -319,29 +319,29 @@ section.content {
 }
 
 /* =========================================================
-   SEARCH & FILTER PANELS (COHESIVE DARK TRANSLUCENT)
+   SEARCH & FILTER PANELS (BRIGHT TRANSLUCENT BLUE)
    ========================================================= */
 .search-panel,
 .search-form-inline,
 .card-section.search-panel,
 .filter-bar.search-panel,
 .filter-bar {
-  background: rgba(11, 27, 58, 0.6) !important;
-  border: 1px solid rgba(56, 189, 248, 0.2) !important;
+  background: rgba(7, 89, 133, 0.65) !important;
+  border: 1px solid rgba(56, 189, 248, 0.45) !important;
   border-radius: 14px !important;
   padding: 14px 16px !important;
-  color: #f1f5f9 !important;
+  color: #ffffff !important;
   margin-bottom: 16px !important;
 }
 
 .card-header-actions {
-  border-bottom: 1px solid rgba(56, 189, 248, 0.2) !important;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.3) !important;
   padding-bottom: 12px !important;
   margin-bottom: 16px !important;
 }
 
 /* =========================================================
-   TABLES & DATATABLES (ELEGANT & NEAT POLISH)
+   TABLES & DATATABLES (BRIGHT BLUE TRANSLUCENT GLASS)
    ========================================================= */
 .table-wrapper,
 .table-wrapper-sm,
@@ -352,12 +352,12 @@ section.content {
   width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  border: 1px solid rgba(56, 189, 248, 0.35) !important;
+  border: 1px solid rgba(56, 189, 248, 0.5) !important;
   border-radius: 16px !important;
-  background: rgba(11, 19, 41, 0.7) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35) !important;
+  background: rgba(3, 105, 161, 0.45) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  box-shadow: 0 8px 30px rgba(2, 132, 199, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
   margin-top: 12px;
   margin-bottom: 16px;
 }
@@ -371,7 +371,7 @@ section.content {
 
 .table-wrapper::-webkit-scrollbar-track,
 .table-wrapper-sm::-webkit-scrollbar-track {
-  background: rgba(11, 19, 41, 0.6);
+  background: rgba(7, 89, 133, 0.5);
   border-radius: 8px;
 }
 
@@ -405,15 +405,15 @@ table thead th,
 table.table-custom thead th,
 table.dataTable thead th,
 .user-batch-table thead th {
-  background: linear-gradient(180deg, rgba(14, 165, 233, 0.3) 0%, rgba(12, 74, 110, 0.5) 100%) !important;
+  background: linear-gradient(180deg, rgba(14, 165, 233, 0.55) 0%, rgba(7, 89, 133, 0.75) 100%) !important;
   color: #ffffff !important;
-  font-weight: 700 !important;
-  font-size: 11.5px !important;
+  font-weight: 800 !important;
+  font-size: 12px !important;
   text-transform: uppercase !important;
   letter-spacing: 0.05em !important;
   border-top: none !important;
-  border-bottom: 2px solid rgba(56, 189, 248, 0.5) !important;
-  border-right: 1px solid rgba(56, 189, 248, 0.15) !important;
+  border-bottom: 2px solid #38bdf8 !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.15) !important;
   border-left: none !important;
   white-space: nowrap;
   padding: 13px 16px !important;
@@ -436,11 +436,11 @@ table.dataTable td,
 .user-batch-table th,
 .user-batch-table td {
   padding: 12px 16px !important;
-  border-bottom: 1px solid rgba(56, 189, 248, 0.12) !important;
-  border-right: 1px solid rgba(56, 189, 248, 0.08) !important;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.22) !important;
+  border-right: 1px solid rgba(56, 189, 248, 0.12) !important;
   border-left: none !important;
   vertical-align: middle !important;
-  color: #f8fafc !important;
+  color: #ffffff !important;
   font-size: 13px !important;
   line-height: 1.45 !important;
 }
@@ -459,13 +459,13 @@ table.dataTable tbody tr:last-child td {
 /* Zebra striping for improved scanning */
 table.table-custom tbody tr:nth-child(even),
 table.dataTable tbody tr:nth-child(even) {
-  background: rgba(56, 189, 248, 0.03) !important;
+  background: rgba(255, 255, 255, 0.06) !important;
 }
 
 table.table-custom tbody tr:hover,
 table.dataTable tbody tr:hover,
 .table-row-hover:hover {
-  background: rgba(14, 165, 233, 0.16) !important;
+  background: rgba(56, 189, 248, 0.22) !important;
   transition: background-color 0.15s ease-in-out !important;
 }
 
@@ -734,13 +734,14 @@ a.btn-secondary {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: rgba(11, 19, 41, 0.75) !important;
-  color: #bae6fd !important;
-  border: 1px solid rgba(56, 189, 248, 0.35) !important;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.35) 0%, rgba(7, 89, 133, 0.6) 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(56, 189, 248, 0.55) !important;
   border-radius: 12px !important;
   padding: 10px 18px !important;
   font-size: 13.5px !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 14px rgba(3, 105, 161, 0.25) !important;
   transition: all 0.2s ease !important;
   text-decoration: none;
   cursor: pointer;
@@ -749,9 +750,10 @@ a.btn-secondary {
 .btn-secondary:hover,
 button.btn-secondary:hover,
 a.btn-secondary:hover {
-  background: rgba(14, 165, 233, 0.22) !important;
-  border-color: rgba(56, 189, 248, 0.6) !important;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.55) 0%, rgba(7, 89, 133, 0.8) 100%) !important;
+  border-color: #38bdf8 !important;
   color: #ffffff !important;
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4) !important;
   transform: translateY(-1px);
 }
 
@@ -1799,11 +1801,106 @@ label {
 .form-group small,
 form small,
 .meta-text-xs,
-.meta-text,
-.muted-copy-tight {
-  color: #94a3b8 !important;
+.meta-text {
+  color: #bae6fd !important;
   font-size: 11.5px !important;
   line-height: 1.4 !important;
+}
+
+/* Titles and Headers on Cards */
+.section-title,
+.section-title-compact,
+.section-title-tight,
+.card-header,
+.request-card-title,
+.card-header-actions-title,
+.access-title,
+.force-offline-label,
+.card h2,
+.card h3,
+.card h4 {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+.section-title-compact svg,
+.section-title-tight svg,
+.card-header svg {
+  color: #38bdf8 !important;
+}
+
+/* Switcher Caption & Muted Copy (Clear, Bright Ice Blue) */
+.switcher-caption {
+  color: #bae6fd !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  margin-top: 4px !important;
+}
+
+.switcher-caption strong {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+}
+
+.muted-copy,
+.muted-copy-tight,
+.section-intro,
+.card-subnote,
+.helper-note,
+.access-copy,
+.clock-text {
+  color: #e0f2fe !important;
+  font-size: 13px !important;
+}
+
+.muted-copy strong,
+.muted-copy-tight strong,
+.section-intro strong {
+  color: #38bdf8 !important;
+  font-weight: 700 !important;
+}
+
+/* Empty State Copy */
+.empty-copy {
+  color: #bae6fd !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  text-align: center !important;
+  padding: 24px 16px !important;
+}
+
+.empty-copy strong {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+}
+
+/* Inputs, Selects, and Form Fields */
+input[type="text"],
+input[type="search"],
+input[type="date"],
+input[type="time"],
+input[type="number"],
+input[type="password"],
+select,
+textarea {
+  background: rgba(12, 74, 110, 0.8) !important;
+  border: 1px solid rgba(56, 189, 248, 0.45) !important;
+  color: #ffffff !important;
+  border-radius: 10px !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.3) !important;
+  outline: none !important;
+}
+
+select option {
+  background: #075985 !important;
+  color: #ffffff !important;
 }
 
 /* Prevent any dark text classes from Tailwind from ruining contrast */
@@ -1820,15 +1917,15 @@ form small,
 .card .text-slate-500,
 .page .text-slate-600,
 .page .text-slate-500 {
-  color: #94a3b8 !important;
+  color: #bae6fd !important;
 }
 
 .card .bg-slate-50,
 .card .bg-slate-100,
 .page .bg-slate-50,
 .page .bg-slate-100 {
-  background-color: rgba(11, 27, 58, 0.7) !important;
-  border-color: rgba(56, 189, 248, 0.2) !important;
+  background-color: rgba(7, 89, 133, 0.6) !important;
+  border-color: rgba(56, 189, 248, 0.35) !important;
 }
 
 /* =========================================================
