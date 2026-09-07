@@ -1053,13 +1053,17 @@ foreach ($packages as $p) {
         'painkiller' => (int)$p['painkiller_qty'],
     ];
 
-    if (strpos($name, 'PAKET A') === 0 || strpos($name, 'PAKET B') === 0) {
+    $isSingleBandage    = ($p['bandage_qty'] > 0 && $p['ifaks_qty'] == 0 && $p['painkiller_qty'] == 0);
+    $isSingleIfaks      = ($p['ifaks_qty'] > 0 && $p['bandage_qty'] == 0 && $p['painkiller_qty'] == 0);
+    $isSinglePainkiller = ($p['painkiller_qty'] > 0 && $p['bandage_qty'] == 0 && $p['ifaks_qty'] == 0);
+
+    if (strpos($name, 'PAKET') === 0 || (!$isSingleBandage && !$isSingleIfaks && !$isSinglePainkiller)) {
         $paketAB[] = $p;
-    } elseif ($p['bandage_qty'] > 0 && $p['ifaks_qty'] == 0 && $p['painkiller_qty'] == 0) {
+    } elseif ($isSingleBandage) {
         $bandagePackages[] = $p;
-    } elseif ($p['ifaks_qty'] > 0 && $p['bandage_qty'] == 0 && $p['painkiller_qty'] == 0) {
+    } elseif ($isSingleIfaks) {
         $ifaksPackages[] = $p;
-    } elseif ($p['painkiller_qty'] > 0 && $p['bandage_qty'] == 0 && $p['ifaks_qty'] == 0) {
+    } elseif ($isSinglePainkiller) {
         $painkillerPackages[] = $p;
     }
 }
@@ -1702,7 +1706,7 @@ include __DIR__ . '/../partials/sidebar.php';
                             </div>
                             <div class="rounded-xl border border-emerald-500/30 bg-emerald-950/40 px-3 py-3">
                                 <div class="meta-text-xs text-emerald-400">Mode Paket Aktif</div>
-                                <div class="font-semibold text-emerald-300" id="activePackageLabel">Paket A / B</div>
+                                <div class="font-semibold text-emerald-300" id="activePackageLabel">Paket Combo</div>
                                 <div class="meta-text-xs text-emerald-400/80">Pilih mode custom jika ingin atur item manual.</div>
                             </div>
                         </div>
@@ -2450,7 +2454,7 @@ include __DIR__ . '/../partials/sidebar.php';
                 customRow.classList.toggle('hidden', normalizedMode !== 'custom');
             }
             if (activeLabel) {
-                activeLabel.textContent = normalizedMode === 'custom' ? 'Custom' : 'Paket A / B';
+                activeLabel.textContent = normalizedMode === 'custom' ? 'Custom' : 'Paket Combo';
             }
 
             if (!preserveSelections) {

@@ -33,15 +33,25 @@ $canAccessGA = ems_can_access_division_menu($division, 'General Affair')
     || in_array(strtolower($position), ['administrasi', 'admin', 'general affair'])
     || !ems_is_staff_role($userRole);
 
+// Cek apakah user adalah Staff Medis
+$isStaffMedic = ($division === 'Medis') || in_array(strtolower($position), ['trainee', 'paramedic', 'co_asst', 'general_practitioner', 'specialist', 'dokter umum', 'dokter spesialis']);
+
+$farmasiNav = [
+    sidebarItem('/dashboard/rekap_farmasi.php', 'rekap_farmasi.php', 'Rekap Farmasi', 'beaker'),
+    sidebarItem('/dashboard/konsumen.php', 'konsumen.php', 'Konsumen', 'user-group'),
+    sidebarItem('/dashboard/ranking.php', 'ranking.php', 'Ranking', 'chart-bar'),
+];
+
+// Jika Staff Medis tidak punya akses menu GA, tampilkan Update Regulasi di grup Farmasi
+if (!$canAccessGA && $isStaffMedic) {
+    $farmasiNav[] = sidebarItem('/dashboard/regulasi.php', 'regulasi.php', 'Update Regulasi', 'pencil');
+}
+
 $groupedNav = [
     'Utama' => [
         sidebarItem('/dashboard/index.php', 'index.php', 'Dashboard', 'home'),
     ],
-    'Farmasi' => [
-        sidebarItem('/dashboard/rekap_farmasi.php', 'rekap_farmasi.php', 'Rekap Farmasi', 'beaker'),
-        sidebarItem('/dashboard/konsumen.php', 'konsumen.php', 'Konsumen', 'user-group'),
-        sidebarItem('/dashboard/ranking.php', 'ranking.php', 'Ranking', 'chart-bar'),
-    ],
+    'Farmasi' => $farmasiNav,
 ];
 
 if ($canAccessGA) {

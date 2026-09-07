@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 // =======================================
 // ERROR LOG CONFIG (PRODUCTION SAFE)
@@ -428,13 +428,17 @@ foreach ($packages as $p) {
         'painkiller' => (int)$p['painkiller_qty'],
     ];
 
-    if (strpos($name, 'PAKET A') === 0 || strpos($name, 'PAKET B') === 0) {
+    $isSingleBandage    = ($p['bandage_qty'] > 0 && $p['ifaks_qty'] == 0 && $p['painkiller_qty'] == 0);
+    $isSingleIfaks      = ($p['ifaks_qty'] > 0 && $p['bandage_qty'] == 0 && $p['painkiller_qty'] == 0);
+    $isSinglePainkiller = ($p['painkiller_qty'] > 0 && $p['bandage_qty'] == 0 && $p['ifaks_qty'] == 0);
+
+    if (strpos($name, 'PAKET') === 0 || (!$isSingleBandage && !$isSingleIfaks && !$isSinglePainkiller)) {
         $paketAB[] = $p;
-    } elseif ($p['bandage_qty'] > 0 && $p['ifaks_qty'] == 0 && $p['painkiller_qty'] == 0) {
+    } elseif ($isSingleBandage) {
         $bandagePackages[] = $p;
-    } elseif ($p['ifaks_qty'] > 0 && $p['bandage_qty'] == 0 && $p['painkiller_qty'] == 0) {
+    } elseif ($isSingleIfaks) {
         $ifaksPackages[] = $p;
-    } elseif ($p['painkiller_qty'] > 0 && $p['bandage_qty'] == 0 && $p['ifaks_qty'] == 0) {
+    } elseif ($isSinglePainkiller) {
         $painkillerPackages[] = $p;
     }
 }
