@@ -1975,4 +1975,298 @@ input.toolbar-input {
   box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.3) !important;
 }
 
+/* =========================================================
+   SETTING AKUN & DOCUMENT UPLOAD DARK/CYBER THEMING
+   ========================================================= */
+
+/* Section Form Title & Dividers */
+.section-form-title {
+  color: #38bdf8 !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+  margin-top: 24px !important;
+  margin-bottom: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  text-transform: uppercase !important;
+}
+
+.section-divider {
+  border: 0 !important;
+  border-top: 1px solid rgba(56, 189, 248, 0.25) !important;
+  margin: 24px 0 !important;
+}
+
+/* Helper text, notes & descriptions */
+.text-muted,
+.doc-upload-meta,
+.doc-hint,
+.card .text-muted,
+.page .text-muted {
+  color: #94a3b8 !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+}
+
+.hint-warning {
+  color: #fde047 !important; /* Soft bright yellow */
+  font-size: 12px !important;
+  display: block !important;
+  margin-top: 4px !important;
+}
+
+.hint-info {
+  color: #7dd3fc !important; /* Soft bright sky blue */
+  font-size: 12px !important;
+  display: block !important;
+  margin-top: 4px !important;
+}
+
+.hint-locked {
+  color: #cbd5e1 !important;
+  font-size: 12px !important;
+  display: block !important;
+  margin-top: 4px !important;
+}
+
+.doc-hint {
+  color: #94a3b8 !important;
+  font-size: 12px !important;
+  display: block !important;
+  margin-top: 6px !important;
+}
+
+/* Info Box */
+.info-box {
+  background: rgba(11, 27, 58, 0.8) !important;
+  border: 1px solid rgba(56, 189, 248, 0.4) !important;
+  border-radius: 12px !important;
+  color: #e0f2fe !important;
+  padding: 12px 16px !important;
+  margin-bottom: 18px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  font-size: 13.5px !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25) !important;
+}
+
+.info-box .info-icon {
+  color: #38bdf8 !important;
+  flex-shrink: 0 !important;
+}
+
+/* Document Upload Wrapper Panel */
+.doc-upload-wrapper {
+  background: rgba(8, 22, 48, 0.65) !important;
+  border: 1px solid rgba(56, 189, 248, 0.3) !important;
+  border-radius: 14px !important;
+  padding: 18px !important;
+  margin-bottom: 16px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+.doc-upload-wrapper:hover {
+  border-color: rgba(56, 189, 248, 0.6) !important;
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.15) !important;
+}
+
+.doc-upload-dashed {
+  border-style: dashed !important;
+  border-color: rgba(56, 189, 248, 0.4) !important;
+}
+
+.doc-upload-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  margin-bottom: 12px !important;
+}
+
+.doc-upload-header-stack {
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 4px !important;
+}
+
+.doc-label {
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+  color: #e0f2fe !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  margin: 0 !important;
+}
+
+/* Status Badges */
+.badge-muted-mini {
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 4px 12px !important;
+  border-radius: 999px !important;
+  background: rgba(30, 41, 59, 0.85) !important;
+  color: #94a3b8 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  border: 1px solid rgba(100, 116, 139, 0.45) !important;
+}
+
+.badge-success-mini {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 4px 12px !important;
+  border-radius: 999px !important;
+  background: rgba(16, 185, 129, 0.2) !important;
+  color: #34d399 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  border: 1px solid rgba(16, 185, 129, 0.45) !important;
+}
+
+.btn-preview-doc {
+  color: #38bdf8 !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  text-decoration: underline !important;
+  transition: color 0.2s ease !important;
+}
+
+.btn-preview-doc:hover {
+  color: #7dd3fc !important;
+}
+
+/* File Upload Drag & Drop Area (Uniform Dark Cyber Style) */
+.file-upload-label {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  padding: 12px 18px !important;
+  border: 2px dashed rgba(56, 189, 248, 0.45) !important;
+  border-radius: 12px !important;
+  background: rgba(11, 19, 41, 0.75) !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  margin: 0 !important;
+  text-transform: none !important;
+}
+
+.file-upload-label:hover {
+  border-color: #38bdf8 !important;
+  background: rgba(14, 165, 233, 0.15) !important;
+  box-shadow: 0 0 16px rgba(14, 165, 233, 0.25) !important;
+}
+
+.file-icon {
+  display: inline-flex !important;
+  height: 42px !important;
+  width: 42px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 10px !important;
+  background: rgba(14, 165, 233, 0.2) !important;
+  color: #38bdf8 !important;
+  border: 1px solid rgba(56, 189, 248, 0.35) !important;
+  flex-shrink: 0 !important;
+}
+
+.file-text {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+}
+
+.file-text strong {
+  color: #ffffff !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+}
+
+.file-text small {
+  color: #94a3b8 !important;
+  font-size: 12px !important;
+  text-transform: none !important;
+}
+
+.file-selected-name {
+  margin-top: 8px !important;
+  font-size: 13px !important;
+}
+
+.selected-file-info {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  border-radius: 8px !important;
+  background: rgba(14, 165, 233, 0.2) !important;
+  border: 1px solid rgba(56, 189, 248, 0.4) !important;
+  color: #f8fafc !important;
+  padding: 6px 12px !important;
+  font-size: 12.5px !important;
+}
+
+.selected-file-info strong {
+  color: #38bdf8 !important;
+}
+
+.selected-file-info small {
+  color: #cbd5e1 !important;
+}
+
+/* Academy Doc Row & Grid */
+.academy-doc-row {
+  background: rgba(11, 27, 58, 0.5) !important;
+  border: 1px solid rgba(56, 189, 248, 0.25) !important;
+  border-radius: 12px !important;
+  padding: 16px !important;
+  margin-bottom: 12px !important;
+}
+
+.academy-doc-row label {
+  color: #e0f2fe !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  margin-bottom: 6px !important;
+  display: block !important;
+}
+
+/* Add Academy Doc Button */
+#btnAddAcademyDoc {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+  border: 1px solid rgba(56, 189, 248, 0.5) !important;
+  color: #ffffff !important;
+  padding: 9px 18px !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3) !important;
+}
+
+#btnAddAcademyDoc:hover {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.45) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Disabled inputs styling */
+input:disabled,
+select:disabled {
+  background: rgba(15, 23, 42, 0.6) !important;
+  color: #94a3b8 !important;
+  border-color: rgba(56, 189, 248, 0.2) !important;
+  cursor: not-allowed !important;
+}
+
 

@@ -123,7 +123,7 @@ unset($_SESSION['flash_messages'], $_SESSION['flash_warnings'], $_SESSION['flash
                             max="26"
                             required
                             value="<?= htmlspecialchars($medicBatch) ?>"
-                            <?= $batchLocked ? 'disabled class="bg-slate-100 cursor-not-allowed"' : '' ?>>
+                            <?= $batchLocked ? 'disabled' : '' ?>>
                         <?php if ($batchLocked): ?>
                             <small class="hint-locked">
                                 Batch terkunci karena Kode Medis telah dibuat
