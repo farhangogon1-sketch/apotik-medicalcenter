@@ -92,8 +92,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 throw new Exception('ID paket tidak valid');
             }
 
-            $stmt = $pdo->prepare("DELETE FROM packages WHERE id = ?");
-            $stmt->execute([$id]);
+            $pdo->beginTransaction();
+            try {
+                $pdo->exec("SET FOREIGN_KEY_CHECKS = 0");
+                $stmt = $pdo->prepare("DELETE FROM packages WHERE id = ?");
+                $stmt->execute([$id]);
+                $pdo->exec("SET FOREIGN_KEY_CHECKS = 1");
+                $pdo->commit();
+            } catch (Exception $e) {
+                $pdo->exec("SET FOREIGN_KEY_CHECKS = 1");
+                if ($pdo->inTransaction()) {
+                    $pdo->rollBack();
+                }
+                throw $e;
+            }
 
             echo json_encode(['success' => true, 'message' => 'Paket berhasil dihapus']);
             exit;
@@ -221,8 +233,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 throw new Exception('ID regulasi tidak valid');
             }
 
-            $stmt = $pdo->prepare("DELETE FROM medical_regulations WHERE id = ?");
-            $stmt->execute([$id]);
+            $pdo->beginTransaction();
+            try {
+                $pdo->exec("SET FOREIGN_KEY_CHECKS = 0");
+                $stmt = $pdo->prepare("DELETE FROM medical_regulations WHERE id = ?");
+                $stmt->execute([$id]);
+                $pdo->exec("SET FOREIGN_KEY_CHECKS = 1");
+                $pdo->commit();
+            } catch (Exception $e) {
+                $pdo->exec("SET FOREIGN_KEY_CHECKS = 1");
+                if ($pdo->inTransaction()) {
+                    $pdo->rollBack();
+                }
+                throw $e;
+            }
 
             echo json_encode(['success' => true, 'message' => 'Regulasi medis berhasil dihapus']);
             exit;
