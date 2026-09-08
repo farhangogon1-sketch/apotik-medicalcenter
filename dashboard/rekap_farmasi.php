@@ -63,8 +63,7 @@ function app_log($message)
 
 function farmasiConsumerNameComparable(string $name): string
 {
-    $name = preg_replace('/\d+/u', ' ', $name);
-    $name = preg_replace("/[^\p{L}\s'\-]/u", ' ', $name);
+    $name = preg_replace("/[^\p{L}\p{N}\s'\-]/u", ' ', $name);
     $name = preg_replace('/\s+/u', ' ', (string)$name);
 
     return trim(mb_strtolower($name, 'UTF-8'));
@@ -72,12 +71,29 @@ function farmasiConsumerNameComparable(string $name): string
 
 function farmasiConsumerNameDisplay(string $name): string
 {
-    $normalized = farmasiConsumerNameComparable($name);
-    if ($normalized === '') {
+    $clean = preg_replace("/[^\p{L}\p{N}\s'\-]/u", ' ', $name);
+    $clean = preg_replace('/\s+/u', ' ', (string)$clean);
+    $clean = trim($clean);
+    if ($clean === '') {
         return '';
     }
 
-    return mb_convert_case($normalized, MB_CASE_TITLE, 'UTF-8');
+    if (ctype_digit($clean)) {
+        return $clean;
+    }
+
+    $parts = explode(' ', $clean);
+    $formatted = array_map(static function ($word) {
+        if (ctype_digit($word)) {
+            return $word;
+        }
+        if (strcasecmp($word, 'cid') === 0) {
+            return 'CID';
+        }
+        return mb_convert_case($word, MB_CASE_TITLE, 'UTF-8');
+    }, $parts);
+
+    return implode(' ', $formatted);
 }
 
 function farmasiConsumerNameKey(string $name): string
@@ -171,6 +187,24 @@ function farmasiConsumerNamesEquivalent(string $inputName, string $existingName)
         return true;
     }
 
+    // Jika mengandung angka / CID, pastikan angkanya sama persis (jangan fuzzy beda nomor CID)
+    preg_match_all('/\d+/', $inputComparable, $inDigits);
+    preg_match_all('/\d+/', $existingComparable, $exDigits);
+    $inNum = implode('', $inDigits[0] ?? []);
+    $exNum = implode('', $exDigits[0] ?? []);
+    if ($inNum !== '' && $exNum !== '') {
+        if ($inNum !== $exNum) {
+            return false;
+        }
+        $inWithoutCid = trim(preg_replace('/\bcid\b/i', '', $inputComparable));
+        $exWithoutCid = trim(preg_replace('/\bcid\b/i', '', $existingComparable));
+        if ($inWithoutCid === $exWithoutCid) {
+            return true;
+        }
+    } elseif ($inNum !== '' || $exNum !== '') {
+        return false;
+    }
+
     $inputKey = farmasiConsumerNameKey($inputComparable);
     $existingKey = farmasiConsumerNameKey($existingComparable);
     if ($inputKey !== '' && $inputKey === $existingKey) {
@@ -251,13 +285,37 @@ function farmasiFindEquivalentConsumerNames(string $canonicalName, array $existi
 
 function fetchDistinctConsumerNames(PDO $pdo): array
 {
-    return $pdo->query("
-        SELECT DISTINCT consumer_name
-        FROM sales
-        WHERE consumer_name IS NOT NULL
-          AND consumer_name <> ''
-        ORDER BY consumer_name ASC
-    ")->fetchAll(PDO::FETCH_COLUMN);
+    $names = [];
+    try {
+        $names = $pdo->query("
+            SELECT DISTINCT consumer_name
+            FROM sales
+            WHERE consumer_name IS NOT NULL
+              AND consumer_name <> ''
+            ORDER BY consumer_name ASC
+        ")->fetchAll(PDO::FETCH_COLUMN);
+    } catch (Throwable $e) {
+        $names = [];
+    }
+
+    try {
+        $cids = $pdo->query("
+            SELECT DISTINCT citizen_id
+            FROM identity_master
+            WHERE citizen_id IS NOT NULL
+              AND citizen_id <> ''
+            ORDER BY citizen_id ASC
+        ")->fetchAll(PDO::FETCH_COLUMN);
+
+        if (!empty($cids)) {
+            $names = array_unique(array_filter(array_merge($names, $cids)));
+            sort($names, SORT_NATURAL | SORT_FLAG_CASE);
+        }
+    } catch (Throwable $e) {
+        // Abaikan jika table identity_master tidak tersedia
+    }
+
+    return array_values($names);
 }
 
 function ensureFarmasiOnline(PDO $pdo, int $userId, string $medicName, string $medicJabatan, bool $confirmActivity = false): void
@@ -576,6 +634,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $consumerName = farmasiConsumerNameDisplay($rawConsumerName);
                 $mergeTargets = [];
 
+                $identityId = null;
+                if ($consumerName !== '') {
+                    try {
+                        $cleanCid = trim(preg_replace('/[^\d]/', '', $rawConsumerName));
+                        if ($cleanCid !== '') {
+                            $stmtId = $pdo->prepare("SELECT id FROM identity_master WHERE citizen_id = ? LIMIT 1");
+                            $stmtId->execute([$cleanCid]);
+                            $found = $stmtId->fetch(PDO::FETCH_ASSOC);
+                            if ($found) {
+                                $identityId = (int)$found['id'];
+                            }
+                        }
+                        if (!$identityId) {
+                            $stmtName = $pdo->prepare("SELECT id FROM identity_master WHERE CONCAT(TRIM(first_name), ' ', TRIM(last_name)) = ? LIMIT 1");
+                            $stmtName->execute([$consumerName]);
+                            $foundName = $stmtName->fetch(PDO::FETCH_ASSOC);
+                            if ($foundName) {
+                                $identityId = (int)$foundName['id'];
+                            }
+                        }
+                    } catch (Throwable $e) {
+                        $identityId = null;
+                    }
+                }
 
                 $packageMainRaw = trim((string)($_POST['package_main'] ?? ''));
                 $isCustomPackage = $packageMainRaw === 'custom';
@@ -587,12 +669,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $forceOverLimit = isset($_POST['force_overlimit']) && $_POST['force_overlimit'] === '1';
 
                 if ($consumerName === '') {
-                    $errors[] = "Nama konsumen wajib diisi.";
+                    $errors[] = "Nama atau CID konsumen wajib diisi.";
                 } else {
-                    if (preg_match('/\d/u', $rawConsumerName)) {
-                        $warnings[] = "Angka pada nama konsumen dihapus otomatis. Nama disimpan sebagai {$consumerName}.";
-                    }
-
                     $autoMerge = (
                         isset($_POST['auto_merge']) &&
                         $_POST['auto_merge'] === '1' &&
@@ -804,38 +882,85 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     $now    = date('Y-m-d H:i:s');
 
-                    $stmtInsert = $pdo->prepare("
-                        INSERT INTO sales
-                        (
-                            consumer_name,
-                            medic_name,
-                            medic_user_id,
-                            medic_jabatan,
-                            package_id,
-                            package_name,
-                            price,
-                            qty_bandage,
-                            qty_ifaks,
-                            qty_painkiller,
-                            created_at,
-                            tx_hash
-                        )
-                        VALUES
-                        (
-                            :cname,
-                            :mname,
-                            :muid,
-                            :mjab,
-                            :pid,
-                            :pname,
-                            :price,
-                            :qb,
-                            :qi,
-                            :qp,
-                            :created,
-                            :tx
-                        )
-                    ");
+                    static $hasIdentityIdCol = null;
+                    if ($hasIdentityIdCol === null) {
+                        try {
+                            $checkCol = $pdo->query("SHOW COLUMNS FROM sales LIKE 'identity_id'")->fetch();
+                            $hasIdentityIdCol = !empty($checkCol);
+                        } catch (Throwable $e) {
+                            $hasIdentityIdCol = false;
+                        }
+                    }
+
+                    if ($hasIdentityIdCol) {
+                        $stmtInsert = $pdo->prepare("
+                            INSERT INTO sales
+                            (
+                                identity_id,
+                                consumer_name,
+                                medic_name,
+                                medic_user_id,
+                                medic_jabatan,
+                                package_id,
+                                package_name,
+                                price,
+                                qty_bandage,
+                                qty_ifaks,
+                                qty_painkiller,
+                                created_at,
+                                tx_hash
+                            )
+                            VALUES
+                            (
+                                :identity_id,
+                                :cname,
+                                :mname,
+                                :muid,
+                                :mjab,
+                                :pid,
+                                :pname,
+                                :price,
+                                :qb,
+                                :qi,
+                                :qp,
+                                :created,
+                                :tx
+                            )
+                        ");
+                    } else {
+                        $stmtInsert = $pdo->prepare("
+                            INSERT INTO sales
+                            (
+                                consumer_name,
+                                medic_name,
+                                medic_user_id,
+                                medic_jabatan,
+                                package_id,
+                                package_name,
+                                price,
+                                qty_bandage,
+                                qty_ifaks,
+                                qty_painkiller,
+                                created_at,
+                                tx_hash
+                            )
+                            VALUES
+                            (
+                                :cname,
+                                :mname,
+                                :muid,
+                                :mjab,
+                                :pid,
+                                :pname,
+                                :price,
+                                :qb,
+                                :qi,
+                                :qp,
+                                :created,
+                                :tx
+                            )
+                        ");
+                    }
 
                     try {
                         // ===============================
@@ -860,7 +985,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                             $txHash = hash('sha256', $postedToken . '|custom');
 
-                            $stmtInsert->execute([
+                            $insertParams = [
                                 ':cname'   => $consumerName,
                                 ':mname'   => $medicName,
                                 ':muid'    => $userId,
@@ -873,14 +998,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 ':qp'      => $customPain,
                                 ':created' => $now,
                                 ':tx'      => $txHash,
-                            ]);
+                            ];
+                            if ($hasIdentityIdCol) {
+                                $insertParams[':identity_id'] = $identityId;
+                            }
+                            $stmtInsert->execute($insertParams);
                         } else {
                             foreach ($selectedIds as $id) {
                                 $p = $packagesSelected[$id];
 
                                 $txHash = hash('sha256', $postedToken . '|' . $id);
 
-                                $stmtInsert->execute([
+                                $insertParams = [
                                     ':cname'   => $consumerName,
                                     ':mname'   => $medicName,
                                     ':muid'    => $userId,
@@ -893,7 +1022,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     ':qp'      => (int)$p['painkiller_qty'],
                                     ':created' => $now,
                                     ':tx'      => $txHash,
-                                ]);
+                                ];
+                                if ($hasIdentityIdCol) {
+                                    $insertParams[':identity_id'] = $identityId;
+                                }
+                                $stmtInsert->execute($insertParams);
                             }
                         }
 
@@ -1588,9 +1721,8 @@ include __DIR__ . '/../partials/sidebar.php';
                     <input type="hidden" name="force_overlimit" id="force_overlimit" value="0">
                     <div class="row-form-2">
                         <div class="col">
-                            <label>Nama Konsumen</label>
-                            <!-- <input type="text" name="consumer_name" list="consumer-list" required> -->
-                            <input type="text" name="consumer_name" id="consumerNameInput" list="consumer-list" required>
+                            <label>Nama / CID Konsumen</label>
+                            <input type="text" name="consumer_name" id="consumerNameInput" list="consumer-list" placeholder="Ketik Nama atau nomor CID..." required autocomplete="off">
                             <div id="similarConsumerBox" class="consumer-similar-box">
                             </div>
                             <datalist id="consumer-list">
@@ -1599,7 +1731,7 @@ include __DIR__ . '/../partials/sidebar.php';
                                 <?php endforeach; ?>
                             </datalist>
                             <small>
-                                Ketik nama, kalau sudah pernah beli akan muncul dan bisa diklik, mohon ketik nama sesuai KTP
+                                Ketik nama atau CID (angka). Konsumen yang pernah transaksi akan muncul otomatis pada rekomendasi.
                             </small>
                         </div>
                         <div class="col">
@@ -2158,9 +2290,8 @@ include __DIR__ . '/../partials/sidebar.php';
         function normalizeName(str) {
             return (str || '')
                 .toLowerCase()
-                .replace(/\d+/g, ' ')
-                .replace(/[^a-z\s]/g, '') // hapus simbol
-                .replace(/\s+/g, ' ') // rapikan spasi
+                .replace(/[^a-z0-9\s'\-]/g, ' ')
+                .replace(/\s+/g, ' ')
                 .trim();
         }
 
@@ -2230,6 +2361,15 @@ include __DIR__ . '/../partials/sidebar.php';
             if (!a || !b) return false;
             if (a === b) return true;
 
+            const digitsA = (a.match(/\d+/g) || []).join('');
+            const digitsB = (b.match(/\d+/g) || []).join('');
+            if (digitsA || digitsB) {
+                if (digitsA !== digitsB) return false;
+                const aNoCid = a.replace(/\bcid\b/gi, '').trim();
+                const bNoCid = b.replace(/\bcid\b/gi, '').trim();
+                if (aNoCid === bNoCid) return true;
+            }
+
             const keyA = getConsumerIdentityKey(a);
             const keyB = getConsumerIdentityKey(b);
             if (keyA && keyA === keyB) return true;
@@ -2261,7 +2401,7 @@ include __DIR__ . '/../partials/sidebar.php';
 
         function findSimilarConsumers(input, consumers) {
             const keyword = normalizeName(input);
-            if (!keyword || keyword.length < 3) return [];
+            if (!keyword || keyword.length < 2) return [];
 
             const tokens = keyword.split(' ');
             const keywordKey = getConsumerIdentityKey(input);
@@ -2477,14 +2617,16 @@ include __DIR__ . '/../partials/sidebar.php';
         function formatConsumerName(name) {
             if (!name) return '';
 
-            return name
-                .toLowerCase()
-                .replace(/\d+/g, ' ')
-                .replace(/[^a-z\s]/g, ' ')
+            return (name || '')
+                .replace(/[^a-zA-Z0-9\s'\-]/g, ' ')
                 .replace(/\s+/g, ' ')
                 .trim()
                 .split(' ')
-                .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+                .map(w => {
+                    if (/^\d+$/.test(w)) return w;
+                    if (/^cid$/i.test(w)) return 'CID';
+                    return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+                })
                 .join(' ');
         }
 
@@ -2545,7 +2687,7 @@ include __DIR__ . '/../partials/sidebar.php';
                 .filter(name => formatConsumerName(name) !== currentName)
                 .slice(0, 6);
 
-            if (!currentName || currentName.length < 3 || similar.length === 0) {
+            if (!currentName || currentName.length < 2 || similar.length === 0) {
                 box.innerHTML = '';
                 ACTIVE_MERGE_CANDIDATES = [];
                 ACTIVE_MERGE_SOURCE_NAME = currentName;
